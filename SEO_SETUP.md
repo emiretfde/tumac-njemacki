@@ -20,7 +20,7 @@
 - Sitemap na `https://tumac-njemacki.me/sitemap.xml` ima samo četiri URL-a; `robots.txt` upućuje na taj sitemap.
 - Pravne stranice (Impressum/Datenschutz) su postojeće, ali imaju `noindex,follow`; ne zahtijevati njihovo indeksiranje bez nove odluke.
 - **Engleski je svjesno ugašen.** Nema `en/`, hreflang-a ni URL-ova u sitemap-u. Na produkciji `/en/*` vraća HTTP **410 Gone** (Apache `.htaccess`; razvojni Cloudflare Pages 404). Stari indeksacijski zahtjev za `/en/` je zastario i Google će ga vremenom ukloniti.
-- **Dosadašnja objavljena produkcija** koristila je **302** za root/www. Produkcioni build skript na trenutnom `main` sada priprema **301** za root/www/`index.html` (PR #25); izmjena nije živa dok ručni produkcioni workflow ne bude uspješno pokrenut i provjeren.
+- **Potvrđeno uživo 11.10.2026:** root/www/`index.html` vraćaju **301** ka zvaničnim kanonskim adresama. [Javna HTTP provjera #38148909477](https://github.com/emiretfde/tumac-njemacki/actions/runs/38148909477) je uspješna.
 
 ## Google Search Console — već verifikovan
 
@@ -92,3 +92,10 @@ Emir navodi da Sead, prema njegovom saznanju, **nema stalnu kancelariju**. Zato 
 GitHub Actions [production #8](https://github.com/emiretfde/tumac-njemacki/actions/runs/38148026015) **Success** na `main` commitu `6df1d5137` (paket sa `301` pravilima objavljen). Direktan spoljašnji HTTP test nije uspio zbog DNS/mrežnih ograničenja ChatGPT okruženja, pa status javnih `301` odgovora ostaje **za potvrdu**.
 
 Pripremljen je read-only [Verify live SEO HTTP responses](https://github.com/emiretfde/tumac-njemacki/actions/workflows/verify-live-seo.yml) GitHub Actions workflow: ručno pokrenuti na `main`; provjerava root/www/index redirect, četiri aktivne stranice, EN 410, XML sitemap i robots, te kao zasebno upozorenje Cloudflare Pages noindex. Ne koristi tajne ili upis i ne mijenja produkciju. Nakon testiranja ažurirati handoff konkretnim rezultatima.
+
+
+### ZAVRŠNA HTTP SEO POTVRDA — 11.10.2026, 16:52 CG (NAJNOVIJE)
+
+Iz [GitHub Actions run #38148909477](https://github.com/emiretfde/tumac-njemacki/actions/runs/38148909477), provjereni job log: **sve provjere PASS, nema upozorenja**. Root `/`, `/index.html` i `www` daju ispravan **301**. Četiri ME/DE stranice vraćaju **200** uz produkcioni canonical i bez noindex; `/en/` daje **410**. `sitemap.xml` vraća **200 application/xml** i tačno četiri očekivana URL-a; `robots.txt` vraća **200** i ispravan `Sitemap:`. Razvojni `tumac-njemacki.pages.dev/me/` vraća **X-Robots-Tag: noindex**. PR #25 i #27 više nijesu samo pripremljene izmjene, već su njihovi rezultati potvrđeni u javnoj HTTP provjeri. Posljednja produkciona objava: [run #38148026015](https://github.com/emiretfde/tumac-njemacki/actions/runs/38148026015), **Success**.
+
+**Odvojeno od HTTP statusa:** Google Search Console je na posljednjim screenshotovima pokazivao 1/4 indeksiran, a sitemap `Couldn't fetch`. Za preostale tri stranice zahtjevi su poslati. Ponovo provjeriti GSC za 24–72 sata; ne pokretati novi deployment niti ponavljati zahtjeve bez razloga.
