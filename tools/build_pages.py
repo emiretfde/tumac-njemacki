@@ -27,6 +27,7 @@ ICONS = {
  "mail": '<rect x="3" y="5.5" width="18" height="13" rx="2"/><path d="m3.8 7 8.2 6 8.2-6"/>',
  "whatsapp": '<path d="M20.3 11.8a8.3 8.3 0 0 1-12.2 7.3L3.6 20.5l1.5-4.4a8.3 8.3 0 1 1 15.2-4.3z"/><path d="M8.5 8.7c.2-.3.5-.4.8-.2l1.2.7c.3.2.4.5.3.8l-.4 1c.7 1.3 1.7 2.3 3 3l1-.4c.3-.1.6 0 .8.3l.7 1.2c.2.3.1.6-.2.8-.6.4-1.3.5-2.1.2-2.5-.9-4.8-3.2-5.7-5.7-.3-.8-.2-1.5.2-2.1z"/>',
  "viber": '<path d="M11.6 3.4c-5.1 0-8.3 2.7-8.3 7.4 0 2.4 1.1 4.2 3 5.4l-.7 3.6 4.1-1.8c.6.1 1.2.1 1.9.1 5.1 0 8.4-2.6 8.4-7.3 0-4.7-3.3-7.4-8.4-7.4z"/><path d="m8.7 9 .9-.5 1.3 1.8-.6.8c.5 1 1.3 1.8 2.3 2.3l.8-.6 1.8 1.3-.5.9c-.2.5-.8.7-1.4.5-2.4-.8-4.6-3-5.4-5.4-.2-.6.1-1.2.8-1.1z"/><path d="M13.2 7.1a3.6 3.6 0 0 1 3.5 3.5M13.3 5.2a5.4 5.4 0 0 1 5.3 5.3"/>',
+ "truck": '<path d="M2.5 6.5h11v9.5h-11zM13.5 9.5h4l3 3.2v3.3h-7"/><circle cx="6.5" cy="17.5" r="1.8"/><circle cx="16.5" cy="17.5" r="1.8"/>',
  "pin": '<path d="M12 21s-6.5-5.6-6.5-11a6.5 6.5 0 0 1 13 0c0 5.4-6.5 11-6.5 11z"/><circle cx="12" cy="10" r="2.4"/>',
  "menu": '<path d="M4 7h16M4 12h16M4 17h16"/>',
  "close": '<path d="M6 6l12 12M18 6 6 18"/>',
@@ -71,6 +72,8 @@ C = {
   trust="Imenovan rješenjem ministra pravde Crne Gore (2022)",
   lead="Ovjereni prevodi dokumenata sa njemačkog i na njemački jezik.",
   places_short="Preuzimanje po dogovoru u Podgorici, Baru, Bijelom Polju i Rožajama",
+  courier_short="Ostali gradovi: dostava kurirom",
+  courier_chip="Ostali gradovi: dostava kurirom",
   actions_title="Pozovite ili pošaljite poruku",
   mail_line="ili pišite na",
   mail_subject="Upit%20za%20prevod",
@@ -145,6 +148,8 @@ C = {
   trust="Bestellt durch Bescheid des Justizministers von Montenegro (2022)",
   lead="Beglaubigte Übersetzungen von Dokumenten aus dem Deutschen und ins Deutsche.",
   places_short="Abholung nach Vereinbarung in Podgorica, Bar, Bijelo Polje und Rožaje",
+  courier_short="Andere Städte: Versand per Kurier",
+  courier_chip="Andere Städte: per Kurier",
   actions_title="Anrufen oder Nachricht senden",
   mail_line="oder per E-Mail an",
   mail_subject="Anfrage%20zur%20%C3%9Cbersetzung",
@@ -292,7 +297,7 @@ def header(lang, slug, on_home):
 <nav aria-label="{c["lang_label"]}"><ul class="lang">{"".join(lang_items)}</ul></nav>
 </div></div>
 <header class="masthead"><div class="wrap">
-<a class="brand" href="/{lang}/"><span class="brand-seal" aria-hidden="true">SC</span><span class="brand-text"><span class="brand-name">Sead Crnovršanin</span><span class="brand-role">{c["role"]}</span></span></a>
+<a class="brand" href="/{lang}/"><span class="brand-seal" aria-hidden="true">SC</span><span class="brand-text"><span class="brand-name">Sead Crnovršanin</span>{"" if on_home else f'<span class="brand-role">{c["role"]}</span>'}</span></a>
 <button class="nav-toggle" type="button" aria-controls="nav" aria-expanded="false" aria-label="{c["menu_open"]}">{icon("menu","icon icon-open")}{icon("close","icon icon-close")}<span class="nav-toggle-label">{c["menu"]}</span></button>
 <nav id="nav" class="site-nav" aria-label="{c["menu"]}">{nav}<a class="btn btn-call nav-call" href="{PHONE_HREF}" data-contact="phone">{icon("phone")}{c["call"]} {PHONE}</a></nav>
 <a class="btn btn-call header-call" href="{PHONE_HREF}" data-contact="phone">{icon("phone")}{c["call"]}</a>
@@ -377,6 +382,7 @@ def home(lang):
 <h1 id="hero-h">{c["h1"]}</h1>
 <p class="hero-lead">{c["lead"]}</p>
 <p class="hero-places">{icon("pin")}<span>{c["places_short"]}</span></p>
+<p class="hero-places">{icon("truck")}<span>{c["courier_short"]}</span></p>
 </div>
 {hero_actions(lang, c["mail_subject"])}
 </div></section>
@@ -394,7 +400,7 @@ def home(lang):
 </div></section>
 <section class="section section-alt" id="dostava" aria-labelledby="dostava-h"><div class="wrap">
 <div class="section-head"><h2 id="dostava-h">{c["delivery_h"]}</h2></div>
-<ul class="places">{cities}</ul>
+<ul class="places">{cities}<li class="places-courier">{icon("truck")}{c["courier_chip"]}</li></ul>
 <p class="delivery-text">{c["delivery_p"]}</p>
 </div></section>
 <section class="section" id="pitanja" aria-labelledby="pitanja-h"><div class="wrap">
