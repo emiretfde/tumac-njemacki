@@ -414,12 +414,26 @@ header{border-bottom-color:rgba(235,240,246,.17)}
 .service-detail-steps li:before{content:counter(detailsteps,decimal-leading-zero);font-family:'Italiana',Georgia,serif;font-size:1.7rem;color:#a28a61;line-height:1.3}
 .service-detail-contact{margin-top:12px;padding:38px 0;border-top:2px solid #b49b70}
 .service-detail-contact .legal-eyebrow{margin-bottom:17px}
-.service-detail-contact-links{display:flex;flex-wrap:wrap;gap:13px 22px;margin:25px 0}
-.service-detail-contact-links a{display:inline-block;min-height:42px;padding:10px 0;color:#182f47;font-weight:600;font-size:.92rem;border-bottom:1px solid #ab966e}
-.service-detail-contact-links .service-detail-social{padding:11px 18px;border:1px solid #b49b70;border-radius:50px}
-.service-detail-contact-links .service-detail-social:hover{background:#e7e7e3}
+/* Match the original page's bespoke outlined communication icons,
+   translated for the light background used by the long-form SEO pages. */
+.service-detail-page .service-detail-contact-links.contact-links{display:flex;flex-direction:column;max-width:680px;gap:0;margin:24px 0 16px}
+.service-detail-page .service-detail-contact-links .contact-link{display:flex;align-items:center;justify-content:space-between;gap:22px;margin:0;padding:19px 0;min-height:82px;background:transparent;color:#182f47;border:0;border-bottom:1px solid rgba(24,47,71,.19);font:400 clamp(1.45rem,3.5vw,2.45rem)/1.2 'Italiana',Georgia,serif;letter-spacing:-.015em}
+.service-detail-page .service-detail-contact-links .contact-link .contact-main{flex:1;min-width:0;overflow-wrap:anywhere;transition:color .25s}
+.service-detail-page .service-detail-contact-links .contact-link:hover .contact-main{color:#8b744c}
+.service-detail-page .service-detail-contact-links .contact-action-icon{display:grid;place-items:center;width:48px;height:48px;flex:0 0 48px;border:1px solid rgba(158,132,85,.55);border-radius:50%;color:#8d754d;background:transparent;transition:background .25s,border-color .25s,transform .25s}
+.service-detail-page .service-detail-contact-links .contact-action-icon svg{width:22px;height:22px}
+.service-detail-page .service-detail-contact-links .contact-link:hover .contact-action-icon{background:rgba(180,155,105,.1);border-color:#8d754d;transform:translateY(-2px)}
+.service-detail-page .service-detail-contact-links .message-links{width:100%;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:13px;margin:26px 0 0;color:#182f47}
+.service-detail-page .service-detail-contact-links .message-links .messenger{display:inline-flex;justify-content:center;align-items:center;gap:11px;width:100%;min-width:0;min-height:54px;margin:0;padding:13px 19px;border:1px solid rgba(158,132,85,.55);border-radius:999px;background:transparent;color:#263e57;font:600 .9rem/1.4 Manrope,Arial,sans-serif;letter-spacing:.01em;transition:background .25s,border-color .25s,transform .25s}
+.service-detail-page .service-detail-contact-links .messenger-icon{display:inline-flex;align-items:center;justify-content:center;width:21px;height:21px;flex:0 0 21px}
+.service-detail-page .service-detail-contact-links .messenger-icon svg{display:block;width:100%;height:100%}
+.service-detail-page .service-detail-contact-links .message-links .messenger:hover{background:rgba(180,155,105,.1);border-color:#8d754d;transform:translateY(-2px)}
+.service-detail-page .service-detail-contact-links a:focus-visible{outline:2px solid #9b8152;outline-offset:4px}
 .service-detail-copy{display:flex;flex-wrap:wrap;align-items:center;gap:8px;color:#586777;font-size:.82rem}
 .service-detail-copy .viber-copy-button{font:inherit;color:#1c3d5a;background:transparent;border:0;border-bottom:1px solid #8d784f;cursor:pointer;padding:3px}
 .service-detail-copy .viber-copy-button:focus-visible{outline:2px solid #b49b70}
-@media(max-width:760px){.vehicle-feature{display:block;padding:27px 23px}.vehicle-feature-link{margin-top:23px;max-width:100%}.service-detail-page .legal-main{padding-top:55px}.service-detail-page .legal-main h1{font-size:clamp(2.6rem,10vw,4rem)}.service-detail-lead{font-size:.97rem}.service-detail-contact-links{display:grid;grid-template-columns:1fr 1fr;gap:9px}.service-detail-contact-links a{font-size:.83rem;overflow-wrap:anywhere}.service-detail-contact-links a:nth-child(-n+2){grid-column:1/-1}}
+@media(max-width:760px){.vehicle-feature{display:block;padding:27px 23px}.vehicle-feature-link{margin-top:23px;max-width:100%}.service-detail-page .legal-main{padding-top:55px}.service-detail-page .legal-main h1{font-size:clamp(2.6rem,10vw,4rem)}.service-detail-lead{font-size:.97rem}.service-detail-page .service-detail-contact-links .contact-link{min-height:74px;padding:16px 0;font-size:clamp(1.34rem,5vw,1.8rem)}.service-detail-page .service-detail-contact-links .contact-action-icon{width:42px;height:42px;flex-basis:42px}.service-detail-page .service-detail-contact-links .contact-action-icon svg{width:20px;height:20px}.service-detail-page .service-detail-contact-links .message-links{gap:10px;margin-top:22px}.service-detail-page .service-detail-contact-links .message-links .messenger{min-height:49px;padding:11px 8px;font-size:.82rem}.service-detail-page .service-detail-contact-links .messenger-icon{width:19px;height:19px;flex-basis:19px}}
 @media(prefers-reduced-motion:reduce){.vehicle-feature-link span,.service-detail-cta{transition:none}}
+
+@media(max-width:360px){.service-detail-page .service-detail-contact-links .contact-link{font-size:1.25rem}.service-detail-page .service-detail-contact-links .message-links .messenger{font-size:.76rem;gap:7px}}
+@media(prefers-reduced-motion:reduce){.service-detail-page .service-detail-contact-links .contact-action-icon,.service-detail-page .service-detail-contact-links .message-links .messenger{transition:none!important}}
