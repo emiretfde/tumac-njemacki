@@ -1,0 +1,8 @@
+# Cloudflare Pages development URLs only; NOT served by ALL-INKL production.
+# Cloudflare Pages supports absolute host patterns and named host placeholders.
+# Production packager only copies an allowlist and never copies this _headers file.
+https://tumac-njemacki.pages.dev/*
+  X-Robots-Tag: noindex
+
+https://:version.tumac-njemacki.pages.dev/*
+  X-Robots-Tag: noindex
