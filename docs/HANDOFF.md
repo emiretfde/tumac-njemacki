@@ -152,3 +152,15 @@ Pri promjenama CSS-a ili JS-a povećati `ASSET_V` u generatoru (trenutno `3.0.0`
 - Sitemap HTTP dijagnostika: https://github.com/emiretfde/tumac-njemacki/actions/runs/38132882924
 
 **Komunikacija:** crnogorski / latinica / ijekavica; kratko, jasno i direktno. Nepoznate poslovne činjenice pitati umjesto da se izmisle.
+
+
+### Dopuna 11.10.2026, oko 15:47 (Google Search Console — screenshotovi korisnika)
+
+- **ME početna je potvrđeno indeksirana:** GSC URL Inspection za `https://tumac-njemacki.me/me/` prikazuje **“URL is on Google”** i **“Page is indexed”**; HTTPS je zelen.
+- **Pages zbirni izvještaj još nije spreman:** Google prikazuje **“Processing data, please check again in a day or so”**. Zbog toga nema pouzdanog ukupnog broja indeksiranih/neindeksiranih URL-ova.
+- **Prijavljeni sitemap još prikazuje grešku:** `/sitemap.xml` ima status **“Couldn't fetch”**, tip **“Unknown”**, otkriveno **0** URL-ova. U detaljima: **“Sitemap could not be read”**; `Last read: 10/11/26`. Ovo je stanje iz GSC interfejsa u ovom trenutku, a ne dokaz da je javni XML neispravan.
+- **Kontrolni dokaz suprotan grešci:** GitHub Actions read-only test #38132882924 ranije istoga dana uspješno je dohvatio javni XML, `HTTP 200`, `application/xml`, četiri ME/DE URL-a. Novi neposredni mrežni test u ChatGPT okruženju nije bio moguć (DNS ograničenje samog okruženja), pa **ne tvrditi da je ponovo potvrđen Googlebotov pristup**.
+- **Zaključak:** Moguće je da Search Console još nije obradio novi sitemap; Googleova pomoć navodi i druge razloge poput privremenog nedostupnog servera, robots zabrane ili manual action. Nije pronađen dokaz konkretne greške koju treba mijenjati na serveru. **Ne brisati/resubmitovati sitemap u krug.** Sačekati 24–72 sata pa provjeriti GSC izvještaj; ako status i dalje stoji, provjeriti robots, pristup Googlovog robota, hosting logove i konkretne HTTP odgovore sa spoljne mreže.
+- **Naredni ručni korak:** URL Inspection `https://tumac-njemacki.me/de/`, zatim `/me/prevod-saobracajne-dozvole.html` i `/de/prevod-saobracajne-dozvole.html`. Ako imaju status “URL is not on Google” uz uspješan Live Test, zatražiti indeksiranje pojedinačno.
+- **Odvojena SEO promjena:** draft PR #21 `seo/noindex-cloudflare-development` predlaže `_headers` za razvojni Pages hostname; **nije spojen, nije objavljen**, nije dio ovog GSC nalaza. Prije spajanja treba potvrditi semantiku Cloudflare `_headers` i provjeriti da zaista važi samo na razvojnom hostu. Nikako ne dodati `noindex` na produkciju.
+- Nema izmjena HTML/CSS/JS, vizuelnog dizajna ili produkcionog deploya tokom ovog koraka.

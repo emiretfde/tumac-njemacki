@@ -49,3 +49,12 @@
 6. Ne mijenjati DNS, KAS Document Root, FTP sigurnosne provjere, verifikacioni fajl ili pravne tekstove bez odobrenja.
 
 Službene SEO smjernice: https://developers.google.com/search/docs/specialty/international/managing-multi-regional-sites
+
+
+### Potvrđeni GSC status — 11.10.2026, oko 15:47 (screenshotovi)
+
+- `/me/`: **“URL is on Google” / “Page is indexed”**. Ta stranica je indeksirana, a ne samo podobna za indeksiranje.
+- Zbirni **Indexing → Pages**: **“Processing data, please check again in a day or so”** — nema ukupnih brojki.
+- **Sitemaps → /sitemap.xml**: **“Couldn't fetch”**, **“Sitemap could not be read”**, posljednje čitanje 11.10.2026, **0 discovered pages**. Stanje i dalje postoji na dan objave.
+- Nezavisni read-only GitHub Actions run [#38132882924](https://github.com/emiretfde/tumac-njemacki/actions/runs/38132882924) ranije je potvrdio HTTP 200, validan XML i 4 produkciona URL-a; time **nije** potvrđeno da je Google obradio sitemap.
+- **Ne raditi odmah promjene servera ili brisati/re-submittovati sitemap.** Dati Googleu 24–72 sata za novu provjeru; ako ostane greška, dijagnostikovati HTTP pristup, robots i hosting logove. Prvo pregledati pojedinačne GSC statuse za `/de/` i obje stranice za vozila. 
