@@ -1,6 +1,8 @@
-name: ALL-INKL staging (manual, isolated)
+name: ALL-INKL staging (auto + manual, isolated)
 
 on:
+  push:
+    branches: [main]
   workflow_dispatch:
 
 permissions:
