@@ -11,7 +11,7 @@ Prije prelaska treba sacuvati trenutno aktivni sajt sa pravnim stranicama, priva
 ## ALL-INKL KAS: izolovani test
 1. Napraviti provjerenu rezervnu kopiju cijelog /tumac-novi/ direktorijuma, ukljucujuci index.html, impressum.html, datenschutz.html, README.txt i assets/.
 2. U WebFTP napraviti NOVI PRAZAN folder /tumac-staging/. Ne dirati /tumac-novi/.
-3. U novom /tumac-staging/ folderu preko WebFTP > New file napraviti fajl tumac-staging-guard ciji je jedini tekst TUMAC_STAGING_ONLY_V1 (bez dodatnog teksta). Bez tog sigurnosnog markera workflow odbija upload.
+3. U novom /tumac-staging/ folderu preko WebFTP > New file napraviti fajl .tumac-staging-guard ciji je jedini tekst TUMAC_STAGING_ONLY_V1 (bez dodatnog teksta). Bez tog sigurnosnog markera workflow odbija upload.
 4. U KAS > Subdomains otvoriti preview.tumac-njemacki.me i povezati ga sa /tumac-staging/. Aktivirati SSL i provjeriti da poddomen radi.
 5. U KAS > FTP > Create new FTP user napraviti dodatnog, posebnoga FTP korisnika ciji je Directory ISKLJUCIVO /tumac-staging/. Ne koristiti glavni korisnik w01a14cb.
 6. Postaviti novu jaku lozinku. NE SLATI LOZINKU U CHAT NITI U GITHUB FAJLOVE.
@@ -23,7 +23,7 @@ Unijeti:
 - ALLINKL_STAGE_FTP_PASSWORD : njegova posebna nova lozinka.
 
 FTP host je w01a14cb.kasserver.com. Koristi se explicit FTPS uz provjeru TLS sertifikata.
-Automatizacija PRVO provjerava da FTP root sadrzi tumac-staging-guard sa sadrzajem TUMAC_STAGING_ONLY_V1. Ako ga nema, odbija upload. Tek nakon te provjere salje fajlove u FTP root dodatnog korisnika, bez brisanja udaljenih fajlova.
+Automatizacija PRVO provjerava da FTP root sadrzi .tumac-staging-guard sa sadrzajem TUMAC_STAGING_ONLY_V1. Ako ga nema, odbija upload. Tek nakon te provjere salje fajlove u FTP root dodatnog korisnika, bez brisanja udaljenih fajlova.
 
 ## PRVI test (rucni)
 1. GitHub -> Actions -> ALL-INKL staging (manual, isolated) -> Run workflow -> main.
