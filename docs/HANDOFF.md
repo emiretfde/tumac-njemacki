@@ -1,5 +1,5 @@
 # HANDOFF — Sead Crnovršanin / tumac-njemacki.me
-**Stanje: 11. oktobar 2026. | V3.0.2 mobile-first uživo; dvije SEO izmjene na GitHubu | izvor istine za narednu Claude sesiju**
+**Stanje: 11. oktobar 2026. | V3.0.2 mobile-first uživo; SEO 301 i razvojni noindex potvrđeni javnim HTTP testom | izvor istine za narednu Claude sesiju**
 
 > **Pročitaj prvo.** Ovo je nastavak postojećeg projekta, NE novi projekat i NE poziv za novi redizajn. Prije rada uporedi `main` sa ovim dokumentom i posljednjim GitHub Actions rezultatima. Ne pretpostavljaj da je Google Search Console nepovezan, da je engleski aktivan ili da je produkcija još na Cloudflare Pages.
 
@@ -16,9 +16,9 @@
 | Cloudflare Pages | https://tumac-njemacki.pages.dev — razvojna adresa; nije produkcioni hosting |
 | Jezici | Samo **ME `/me/` i DE `/de/`**; engleski je povučen |
 | Kontakt | `+382 67 99 81 99`, `info@tumac-njemacki.me`; telefon, WhatsApp i Viber |
-| Status objave | GitHub Actions **Production run #38132612919 — success**, `main` commit `d66efe4`, 11.10.2026. u 12:37 po vremenu CG (10:37 UTC) |
-| Provjera sitemap-a | GitHub Actions **read-only #38132882924 — success**, četiri URL-a i XML MIME |
-| Aktivni PR prije ovog sređivanja | #20, `docs/handoff-v3`, **dokumentacija**; nema novih funkcionalnih izmjena od PR #19 |
+| Posljednja produkciona objava | GitHub Actions [**run #38148026015**](https://github.com/emiretfde/tumac-njemacki/actions/runs/38148026015) — **Success**, `main` commit `6df1d5137`, 11.10.2026, oko 16:39 CG |
+| Posljednja javna SEO HTTP provjera | GitHub Actions [**run #38148909477**](https://github.com/emiretfde/tumac-njemacki/actions/runs/38148909477) — **Success**, 11.10.2026, 16:52 CG; 301, 200, 410, sitemap i Cloudflare noindex potvrđeni |
+| Trenutno stanje PR-ova | Nema otvorenih PR-ova. PR #25 (301), #27 (Cloudflare noindex) i #29 (read-only provjera) spojeni. |
 
 **Granice potvrde:** GitHub potvrđuje završetak workflowa i verziju koda. To nije zamjena za nezavisan vizuelni test na iPhoneu/Safariju. Sead/Emir su ranije potvrdili da Viber radi; novo kompletno regresiono testiranje nije obavljeno ovim dokumentovanjem.
 
@@ -226,3 +226,26 @@ Pri promjenama CSS-a ili JS-a povećati `ASSET_V` u generatoru (trenutno `3.0.0`
 - **Novi read-only dijagnostički workflow:** `.github/workflows/verify-live-seo.yml`, ručno `workflow_dispatch`, **bez secrets, FTP-a i upisa**. Poslije spajanja dostupan je na https://github.com/emiretfde/tumac-njemacki/actions/workflows/verify-live-seo.yml . Treba ga jednom pokrenuti sa `main` i pročitati `check-public-site` rezultate za: root/www/index `301`, sve četiri ME/DE stranice `200` bez `noindex`, `/en/` `410`, `sitemap.xml` ispravan XML sa četiri URL-a, `robots.txt` referencu. Cloudflare `pages.dev` `X-Robots-Tag: noindex` je odvojeno **upozorenje**, jer još treba potvrditi da je Pages automatski objavio izvorni `_headers`.
 - **Završni status:** produkcioni deploy **potvrđeno uspješan**; javna HTTP dijagnostika još **čeka pokretanje ili nezavisnu potvrdu**. Ne raditi novu produkcionu objavu samo radi read-only testa. Poslije testa zabilježiti konkretne HTTP statuse i eventualne popravke.
 - Google Search Console: posljednje potvrđeno **1/4 indeksiran**, request indexing poslato za preostale 3 stranice, sitemap još `Couldn't fetch` na starijem screenshotu. Ne ponavljati zahtjeve bez potrebe; ponovo pregledati narednih dana.
+
+
+## 16. ZAVRŠNA JAVNA SEO HTTP PROVJERA — 11.10.2026, 16:52 CG (NAJNOVIJE)
+
+**Izvor:** [GitHub Actions run #38148909477](https://github.com/emiretfde/tumac-njemacki/actions/runs/38148909477), `check-public-site` **Success**, commit `3dbdee0a6f8ce71789a69835fb9900c2765d332a`. Rezultati pročitani iz stvarnog GitHub Actions job loga.
+
+| URL / resurs | Izmjeren rezultat |
+| --- | --- |
+| `https://tumac-njemacki.me/` | **301** → `https://tumac-njemacki.me/me/` |
+| `https://tumac-njemacki.me/index.html` | **301** → `https://tumac-njemacki.me/me/` |
+| `https://www.tumac-njemacki.me/me/` | **301** → `https://tumac-njemacki.me/me/` |
+| `/me/`, `/de/` | **200**, HTML, canonical na zvaničnom domenu, bez noindex |
+| `/me/prevod-saobracajne-dozvole.html`, `/de/prevod-saobracajne-dozvole.html` | **200**, HTML, canonical na zvaničnom domenu, bez noindex |
+| `/en/` | **410 Gone** |
+| `/sitemap.xml` | **200**, `application/xml`, validan XML sa tačno četiri očekivana URL-a |
+| `/robots.txt` | **200**, `Sitemap:` upućuje na produkcioni XML |
+| `https://tumac-njemacki.pages.dev/me/` | **200**, `X-Robots-Tag: noindex` (razvojni host) |
+
+**Sve javne HTTP provjere su prošle, bez upozorenja.** Raniji navodi u sekcijama 14–15 da „301/noindex čekaju objavu/provjeru” su ISTORIJSKO stanje prije ovog testa; ne ponavljati produkcionu objavu. Zvanični sajt nije označen kao noindex.
+
+**Otvorena stavka ostaje samo Google Search Console:** zadnji korisnički izvještaj je **1/4 indeksiran** (ME početna), za ostale tri stranice je poslat Request Indexing; GSC sitemap je na starijem screenshotu prijavljivao `Couldn't fetch / 0 discovered`, iako su javni HTTP/XML testovi uspješni. Čekati novu GSC obradu i provjeriti za 24–72 sata. Ovaj test ne dokazuje da je Google već indeksirao sve četiri stranice.
+
+Nema novih kampanja/troškova, dizajnerskih promjena ni dodatnih produkcionih akcija. Cloudflare `noindex` i `301` preusmjeravanja su završena i provjerena.
