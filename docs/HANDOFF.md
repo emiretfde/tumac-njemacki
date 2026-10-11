@@ -217,3 +217,12 @@ Pri promjenama CSS-a ili JS-a povećati `ASSET_V` u generatoru (trenutno `3.0.0`
 5. Poslije završne provjere ažurirati ovaj handoff sa **potvrđenim live statusom**; Claude i ChatGPT koriste isti izvor istine.
 
 **Bez novih kampanja, troškova, frontend dizajnerskih ili sadržajnih promjena.**
+
+
+## 15. Produkcioni deployment i završni SEO HTTP test — 11.10.2026, oko 16:42
+
+- **Potvrđeno iz GitHub Actions API-ja i screenshot-a korisnika:** `ALL-INKL production (manual, guarded) #8`, https://github.com/emiretfde/tumac-njemacki/actions/runs/38148026015, **Success**, `main` commit `6df1d5137895864468c08bfe154f7562af100e6a`, 11.10.2026. u 14:38:49–14:39:30 UTC. Prošli su `Verify site and legal readiness`, provjera ograničenog FTP naloga, guard marker i `Upload production package`. Build na tom commitu sadrži pripremljena **301** preusmjeravanja za `www`, `/` i `/index.html`.
+- **Ograničenje dokaza:** uspješan workflow dokazuje da je paket prenijet u ograničeni LIVE folder, ali **nije** nezavisna potvrda kako javni HTTP server odgovara na svaku adresu. Direktni `curl` iz ChatGPT izvršnog okruženja i alat za web pristup nijesu mogli da razriješe/dohvate domen; ovo je ograničenje okruženja, ne dokazana greška sajta. Zato ne označavati javne 301/200/410 odgovore kao testirane dok ne postoji nova potvrda.
+- **Novi read-only dijagnostički workflow:** `.github/workflows/verify-live-seo.yml`, ručno `workflow_dispatch`, **bez secrets, FTP-a i upisa**. Poslije spajanja dostupan je na https://github.com/emiretfde/tumac-njemacki/actions/workflows/verify-live-seo.yml . Treba ga jednom pokrenuti sa `main` i pročitati `check-public-site` rezultate za: root/www/index `301`, sve četiri ME/DE stranice `200` bez `noindex`, `/en/` `410`, `sitemap.xml` ispravan XML sa četiri URL-a, `robots.txt` referencu. Cloudflare `pages.dev` `X-Robots-Tag: noindex` je odvojeno **upozorenje**, jer još treba potvrditi da je Pages automatski objavio izvorni `_headers`.
+- **Završni status:** produkcioni deploy **potvrđeno uspješan**; javna HTTP dijagnostika još **čeka pokretanje ili nezavisnu potvrdu**. Ne raditi novu produkcionu objavu samo radi read-only testa. Poslije testa zabilježiti konkretne HTTP statuse i eventualne popravke.
+- Google Search Console: posljednje potvrđeno **1/4 indeksiran**, request indexing poslato za preostale 3 stranice, sitemap još `Couldn't fetch` na starijem screenshotu. Ne ponavljati zahtjeve bez potrebe; ponovo pregledati narednih dana.

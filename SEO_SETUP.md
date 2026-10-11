@@ -85,3 +85,10 @@ Emir navodi da Sead, prema njegovom saznanju, **nema stalnu kancelariju**. Zato 
 - **PR #27 merged**: `_headers` postavlja `X-Robots-Tag: noindex` samo za Cloudflare Pages development i branch preview hostname; ne kopira se u ALL-INKL production build. HTTP efekat na Pages domeni još nije nezavisno izmjeren. Stari draft PR #21 zatvoren bez mergea.
 - **GSC**: zadnji korisnički screenshotovi potvrđuju 1 indeksiran od 4 URL-a; zahtjevi za indeksiranje preostala tri poslati. Sitemap status `Couldn't fetch` još čeka ponovnu Google provjeru. Google Business Profile odložen.
 - **Naredni koraci:** korisnička potvrda produkcionog deploya, provjera 301/200/410 odgovora i Cloudflare noindex zaglavlja, pa pregled Search Console narednih dana. Ne ponavljati već poslato indeksiranje.
+
+
+### Produkciona objava potvrđena, HTTP provjera čeka — 11.10.2026
+
+GitHub Actions [production #8](https://github.com/emiretfde/tumac-njemacki/actions/runs/38148026015) **Success** na `main` commitu `6df1d5137` (paket sa `301` pravilima objavljen). Direktan spoljašnji HTTP test nije uspio zbog DNS/mrežnih ograničenja ChatGPT okruženja, pa status javnih `301` odgovora ostaje **za potvrdu**.
+
+Pripremljen je read-only [Verify live SEO HTTP responses](https://github.com/emiretfde/tumac-njemacki/actions/workflows/verify-live-seo.yml) GitHub Actions workflow: ručno pokrenuti na `main`; provjerava root/www/index redirect, četiri aktivne stranice, EN 410, XML sitemap i robots, te kao zasebno upozorenje Cloudflare Pages noindex. Ne koristi tajne ili upis i ne mijenja produkciju. Nakon testiranja ažurirati handoff konkretnim rezultatima.
