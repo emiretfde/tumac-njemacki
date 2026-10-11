@@ -113,3 +113,122 @@ body{font-family:Manrope,Arial,sans-serif} .serif,h1,.section-title,.service h3,
 .lang-switch a:focus-visible{outline:2px solid #c5ad7e;outline-offset:3px}
 @media(max-width:1060px){.lang-switch a{font-size:.67rem}}
 @media(max-width:680px){.lang-switch a{font-size:.61rem;padding:7px 2px;gap:2px}}
+
+
+/* V12 — premium hero motion: composed, restrained and accessible.
+   All decorative effects are CSS-only; no added images, fonts or JavaScript. */
+.hero{isolation:isolate}
+.hero::before{
+  z-index:0;
+  animation:hero-rings-breathe 24s ease-in-out infinite;
+}
+.hero::after{
+  content:"";
+  position:absolute;
+  z-index:0;
+  inset:-20% -10%;
+  pointer-events:none;
+  background:
+    radial-gradient(ellipse 38% 43% at 78% 35%,rgba(210,187,138,.13),transparent 78%),
+    radial-gradient(ellipse 38% 40% at 30% 89%,rgba(138,152,128,.065),transparent 75%);
+  filter:blur(28px);
+  opacity:.75;
+  transform:translate3d(0,0,0);
+  animation:hero-ambient-drift 23s ease-in-out infinite alternate;
+}
+.hero-content{z-index:1}
+.hero .hero-display{animation:none!important}
+.hero-display .hero-title-line{
+  display:block;
+  opacity:1;
+  transform:translate3d(0,0,0);
+  animation:hero-text-unveil 1.05s cubic-bezier(.2,.72,.2,1) both;
+}
+.hero-display .hero-title-line:first-child{animation-delay:.14s}
+.hero-display .hero-title-line:nth-child(2){animation-delay:.32s}
+.hero-display .hero-title-accent em{font-style:normal}
+.hero .hero-kicker{animation:hero-minimal-in .75s cubic-bezier(.2,.7,.2,1) both}
+.hero .hero-meta{animation:hero-minimal-in .85s cubic-bezier(.2,.7,.2,1) both}
+.hero .hero-bottom{animation:hero-minimal-in 1.05s cubic-bezier(.2,.72,.2,1) .54s both}
+.hero .hero-foot{animation:hero-minimal-in .9s cubic-bezier(.2,.7,.2,1) .8s both}
+.hero .hero-seal{
+  position:relative;
+  isolation:isolate;
+  animation:hero-seal-hover 18s ease-in-out infinite;
+}
+.hero .hero-seal::before{
+  content:"";
+  position:absolute;
+  inset:-11px;
+  border-radius:50%;
+  border:1px solid rgba(199,180,142,.07);
+  border-top-color:rgba(199,180,142,.36);
+  border-right-color:rgba(199,180,142,.18);
+  pointer-events:none;
+  animation:hero-seal-orbit 38s linear infinite;
+}
+.hero .button{
+  position:relative;
+  overflow:hidden;
+  isolation:isolate;
+  box-shadow:0 8px 30px rgba(8,13,10,.11);
+  transition:transform .3s cubic-bezier(.2,.75,.2,1),box-shadow .3s ease,background-color .3s ease;
+}
+.hero .button > span{position:relative;z-index:1}
+.hero .button::after{
+  content:"";
+  position:absolute;
+  z-index:0;
+  top:-20%;
+  bottom:-20%;
+  left:-90%;
+  width:55%;
+  pointer-events:none;
+  background:linear-gradient(105deg,transparent,rgba(255,255,255,.25),transparent);
+  transform:skewX(-22deg);
+  transition:left .72s cubic-bezier(.2,.65,.2,1);
+}
+@media(hover:hover) and (pointer:fine){
+  .hero .button:hover{transform:translateY(-2px);box-shadow:0 13px 35px rgba(8,13,10,.18)}
+  .hero .button:hover::after{left:155%}
+}
+@keyframes hero-text-unveil{
+  from{opacity:0;transform:translate3d(0,16px,0);filter:blur(3px)}
+  to{opacity:1;transform:translate3d(0,0,0);filter:blur(0)}
+}
+@keyframes hero-minimal-in{
+  from{opacity:0;transform:translate3d(0,9px,0)}
+  to{opacity:1;transform:translate3d(0,0,0)}
+}
+@keyframes hero-ambient-drift{
+  from{transform:translate3d(-1.5%,0,0) scale(1)}
+  to{transform:translate3d(2%,1.5%,0) scale(1.07)}
+}
+@keyframes hero-rings-breathe{
+  0%,100%{opacity:.50}
+  50%{opacity:.8}
+}
+@keyframes hero-seal-hover{
+  0%,100%{transform:rotate(-9deg) translateY(0)}
+  50%{transform:rotate(-7deg) translateY(-7px)}
+}
+@keyframes hero-seal-orbit{to{transform:rotate(360deg)}}
+@media(max-width:760px){
+  .hero::after{inset:-12% -30%;filter:blur(25px);opacity:.6}
+  .hero-display .hero-title-line{animation-duration:.84s}
+  .hero .button{box-shadow:0 5px 22px rgba(8,13,10,.10)}
+}
+@media(prefers-reduced-motion:reduce){
+  .hero::before,.hero::after,.hero .hero-meta,.hero .hero-kicker,
+  .hero .hero-bottom,.hero .hero-foot,.hero .hero-seal,
+  .hero .hero-seal::before,.hero-display .hero-title-line{
+    animation:none!important;
+    transform:none!important;
+    opacity:1!important;
+    filter:none!important;
+  }
+  .hero .hero-seal{transform:rotate(-9deg)!important}
+  .hero .button::after{display:none}
+  .hero .button{transition:none!important}
+}
+
