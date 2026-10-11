@@ -20,6 +20,14 @@ for language in me de en; do
     exit 1
   }
 done
+for language in me de en; do
+  for legal in impressum datenschutz; do
+    test -s "$out/$language/$legal.html" || {
+      echo "Missing translated legal page: $language/$legal.html" >&2
+      exit 1
+    }
+  done
+done
 test -s "$out/assets/site.css"
 test -s "$out/assets/site.js"
 
