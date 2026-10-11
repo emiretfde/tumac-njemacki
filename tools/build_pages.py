@@ -68,7 +68,7 @@ C = {
   desc="Sudski tumač za njemački jezik u Crnoj Gori. Ovjereni prevodi dokumenata na njemački i sa njemačkog. Preuzimanje u Podgorici, Baru, Bijelom Polju i Rožajama.",
   og_locale="sr_ME",
   h1="Sudski tumač za njemački jezik",
-  trust="Na zvaničnom spisku sudskih tumača Ministarstva pravde Crne Gore",
+  trust="Imenovan rješenjem ministra pravde Crne Gore (2022)",
   lead="Ovjereni prevodi dokumenata sa njemačkog i na njemački jezik.",
   places_short="Preuzimanje po dogovoru u Podgorici, Baru, Bijelom Polju i Rožajama",
   actions_title="Pozovite ili pošaljite poruku",
@@ -89,9 +89,9 @@ C = {
          ("Dogovorimo detalje","Dobijate povratnu informaciju o cijeni, vremenu izrade i preuzimanju."),
          ("Preuzmite prevod","Prevod preuzimate prema dogovoru ili putem dostave, gdje je to moguće.")],
   about_h="O meni",
-  about=['<strong>Sead Crnovršanin</strong> je diplomirani ekonomista i sudski tumač za njemački jezik, naveden na zvaničnom spisku Ministarstva pravde Crne Gore.',
+  about=['<strong>Sead Crnovršanin</strong> je diplomirani ekonomista i sudski tumač za njemački jezik, imenovan rješenjem ministra pravde Crne Gore broj <span class="nowrap">UPI-05-109/22-1418-1</span> od 26.12.2022.',
          'U svom radu usmjeren je na precizno prevođenje dokumentacije sa njemačkog i na njemački jezik, uz pažnju prema terminologiji, namjeni dokumenta i dogovorenim rokovima.'],
-  source='Podatak o sudskom tumaču: <a href="https://www.gov.me/en/article/190720--spisak-sudskih-tumaca-azuriran-19-9-2018" target="_blank" rel="noopener noreferrer">Ministarstvo pravde Crne Gore, spisak iz 2018.</a>',
+  source='Podaci o imenovanju i pružaocu usluge: <a href="/me/impressum.html">Impressum</a>',
   quote="Svaka riječ. Na svom mjestu.",
   delivery_h="Preuzimanje i dostava",
   cities=["Podgorica","Bar","Bijelo Polje","Rožaje"],
@@ -142,7 +142,7 @@ C = {
   desc="Beglaubigte Übersetzungen Deutsch–Montenegrinisch in Montenegro. Dokumente, Urkunden und Zeugnisse. Abholung in Podgorica, Bar, Bijelo Polje und Rožaje.",
   og_locale="de_DE",
   h1="Gerichts­dolmetscher für Deutsch",
-  trust="Aufgeführt in der offiziellen Liste des Justizministeriums Montenegros",
+  trust="Bestellt durch Bescheid des Justizministers von Montenegro (2022)",
   lead="Beglaubigte Übersetzungen von Dokumenten aus dem Deutschen und ins Deutsche.",
   places_short="Abholung nach Vereinbarung in Podgorica, Bar, Bijelo Polje und Rožaje",
   actions_title="Anrufen oder Nachricht senden",
@@ -163,9 +163,9 @@ C = {
          ("Details abstimmen","Sie erhalten Informationen zu Preis, Bearbeitungszeit und Abholung."),
          ("Übersetzung erhalten","Sie erhalten Ihre Übersetzung nach Vereinbarung oder per Versand, sofern möglich.")],
   about_h="Über mich",
-  about=['<strong>Sead Crnovršanin</strong> ist Diplom-Ökonom und Gerichtsdolmetscher für Deutsch. Er ist in einer offiziellen Liste des montenegrinischen Justizministeriums aufgeführt.',
+  about=['<strong>Sead Crnovršanin</strong> ist Diplom-Ökonom und Gerichtsdolmetscher für Deutsch, bestellt durch Bescheid des Justizministers von Montenegro Nr. <span class="nowrap">UPI-05-109/22-1418-1</span> vom 26.12.2022.',
          'Sein Schwerpunkt liegt auf präzisen Dokumentenübersetzungen aus dem Deutschen und ins Deutsche, mit besonderer Sorgfalt bei Terminologie, Verwendungszweck und vereinbarten Fristen.'],
-  source='Quelle zu Qualifikation und Eintragung: <a href="https://www.gov.me/en/article/190720--spisak-sudskih-tumaca-azuriran-19-9-2018" target="_blank" rel="noopener noreferrer">Justizministerium Montenegros, Liste von 2018</a>',
+  source='Angaben zur Bestellung und zum Anbieter: <a href="/de/impressum.html">Impressum</a>',
   quote="Jedes Wort. Am richtigen Platz.",
   delivery_h="Abholung und Versand",
   cities=["Podgorica","Bar","Bijelo Polje","Rožaje"],
@@ -461,10 +461,43 @@ def legal(lang, slug):
 '''
     path.write_text(head(lang, title, None, slug, "noindex,follow", og=False) + "\n" + body + tail(consent), encoding="utf-8")
 
+def not_found():
+    """/404.html — served for missing pages and for the retired /en/ URLs (HTTP 410 on ALL-INKL)."""
+    page = f'''<!doctype html>
+<html lang="sr-Latn-ME">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#14293f">
+<meta name="robots" content="noindex,follow">
+<title>Stranica ne postoji · Seite nicht gefunden | Sead Crnovršanin</title>
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<link rel="stylesheet" href="/assets/site.css?v={ASSET_V}">
+</head>
+<body class="legal-page">
+<header class="masthead"><div class="wrap">
+<a class="brand" href="/me/"><span class="brand-seal" aria-hidden="true">SC</span><span class="brand-text"><span class="brand-name">Sead Crnovršanin</span><span class="brand-role">{C["me"]["role"]}</span></span></a>
+</div></header>
+<main class="legal-main" id="main">
+<h1>Stranica ne postoji</h1>
+<p class="legal-intro">Tražena stranica je uklonjena ili je adresa pogrešna.</p>
+<p lang="de" class="legal-intro">Diese Seite existiert nicht mehr oder die Adresse ist falsch.</p>
+<div class="hero-actions notfound-actions">
+<a class="btn btn-ink" href="/me/" hreflang="sr-Latn-ME">Početna (ME)</a>
+<a class="btn btn-light" href="/de/" hreflang="de" lang="de">Startseite (DE)</a>
+<a class="btn btn-call" href="{PHONE_HREF}" data-contact="phone">{icon("phone")}<span>{C["me"]["call"]} <span class="btn-number">{PHONE}</span></span></a>
+</div>
+</main>
+</body>
+</html>
+'''
+    (ROOT / "404.html").write_text(page, encoding="utf-8")
+
 if __name__ == "__main__":
     for lang in ("me", "de"):
         home(lang)
         vehicle(lang)
         legal(lang, "impressum.html")
         legal(lang, "datenschutz.html")
-    print("Built /me and /de pages.")
+    not_found()
+    print("Built /me and /de pages and /404.html.")

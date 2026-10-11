@@ -9,7 +9,7 @@ destination="dist-allinkl-production"
 rm -rf -- "$destination"
 mkdir -p -- "$destination"
 
-for source in assets me de favicon.svg sitemap.xml robots.txt google9ea0a3ecbd8b4bde.html; do
+for source in assets me de favicon.svg 404.html sitemap.xml robots.txt google9ea0a3ecbd8b4bde.html; do
   test -e "$source" || { echo "Missing required source: $source" >&2; exit 1; }
   cp -R -- "$source" "$destination/"
 done
@@ -68,6 +68,8 @@ fi
 cat > "$destination/.htaccess" <<'EOF'
 Options -Indexes
 DirectoryIndex index.html
+ErrorDocument 404 /404.html
+ErrorDocument 410 /404.html
 
 # Force correct XML MIME to prevent browsers from interpreting sitemap tags as HTML.
 AddType application/xml .xml
@@ -86,14 +88,9 @@ RewriteRule ^impressum\.html$ https://tumac-njemacki.me/me/impressum.html [R=302
 RewriteRule ^datenschutz\.html$ https://tumac-njemacki.me/me/datenschutz.html [R=302,L,NC]
 RewriteRule ^index\.html$ https://tumac-njemacki.me/me/ [R=302,L,NC]
 
-# V3: English version retired. Permanent redirects to the Montenegrin equivalents
-# (x-default). Absolute public URLs only, never relative targets on ALL-INKL.
-RewriteRule ^en/?$ https://tumac-njemacki.me/me/ [R=301,L,NC]
-RewriteRule ^en/index\.html$ https://tumac-njemacki.me/me/ [R=301,L,NC]
-RewriteRule ^en/prevod-saobracajne-dozvole\.html$ https://tumac-njemacki.me/me/prevod-saobracajne-dozvole.html [R=301,L,NC]
-RewriteRule ^en/impressum\.html$ https://tumac-njemacki.me/me/impressum.html [R=301,L,NC]
-RewriteRule ^en/datenschutz\.html$ https://tumac-njemacki.me/me/datenschutz.html [R=301,L,NC]
-RewriteRule ^en/ https://tumac-njemacki.me/me/ [R=301,L,NC]
+# V3: English version removed completely. 410 Gone (no redirect), even if old
+# /en/ files remain in the folder because the FTP mirror never deletes files.
+RewriteRule ^en(/.*)?$ - [G,L,NC]
 RewriteRule ^$ https://tumac-njemacki.me/me/ [R=302,L]
 
 <IfModule mod_headers.c>
