@@ -181,3 +181,12 @@ Pri promjenama CSS-a ili JS-a povećati `ASSET_V` u generatoru (trenutno `3.0.0`
 - **Korisniku je preporučeno** da pojedinačno klikne `REQUEST INDEXING` na dvije stranice o vozilima, **ako nije ranije**; nema potvrde da je to već uradio. Ne evidentirati kao urađeno dok ne potvrdi.
 - Ne mijenjati SEO HTML/CSS/server zbog sadašnjeg statusa; sačekati novo Google indeksiranje i ponovno čitanje sitemap-a. Provjeriti ponovo narednih dana. **Status nije dokaz blokade indeksiranja.**
 - Nema nove izmjene produkcionog sajta, DNS-a, robota ili plaćenih kampanja. Postojeći nacrt PR #21 za Cloudflare razvojni noindex ostaje zasebno na čekanju.
+
+
+### Dopuna 11.10.2026 — poslat Request Indexing za servisne stranice
+
+- Emir je nakon pregleda rezultata potvrdio **„Kliknuo sam request indexing“** za dvije ranije razmatrane stranice o saobraćajnim dozvolama (`/me/prevod-saobracajne-dozvole.html` i `/de/prevod-saobracajne-dozvole.html`). Raniji zahtjev za `/de/` je već bio poslat. **Ne ponavljati ove zahtjeve bez potrebe.**
+- **Posljednji potvrđeni indeksni status i dalje je 1/4** (ME početna u indeksu; DE početna i dvije servisne stranice imaju uspešan Live Test, ali nijesu bile indeksirane na zadnjem screenshotu). Zahtjev za indeksiranje nije dokaz da je indeksiranje završeno.
+- GSC Sitemaps posljednji screenshot: `Couldn't fetch` / 0 discovered; tehnički read-only XML test je prošao. Sačekati dalju obradu i provjeriti opet za 24–72 sata; nema potrebe dirati sitemap odmah.
+- Pregledane javne preporuke: Cloudflare Pages službeno podržava host-specifični apsolutni URL u `_headers` pravilima i `:version` placeholder u hostname-u (https://developers.cloudflare.com/pages/configuration/headers/). Zato nacrt PR #21 tehnički odgovara Cloudflare dokumentovanoj sintaksi; **još je draft i nije spojen niti nezavisno testiran na live Pages hostu**.
+- Google preporučuje **trajno 301 preusmjeravanje** kada je kanonski URL stabilan (https://developers.google.com/search/docs/crawling-indexing/301-redirects). Produkcioni root i www trenutno su 302, pa je prelazak na 301 zasebna predložena tehnička SEO optimizacija — bez objave dok se ne odobri i provjeri.
