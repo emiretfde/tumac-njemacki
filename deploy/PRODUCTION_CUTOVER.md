@@ -8,6 +8,8 @@
 - Staging FTP is limited to /tumac-staging/ and GitHub Actions deployed successfully.
 - User confirmed preview site, all three languages, SSL and V18 legal/consent design work.
 - GitHub auto-deployment currently affects staging ONLY.
+- Live release folder /tumac-bluegold-live/ has been created, separate from current /tumac-novi/.
+- Dedicated production FTP user f018eb1d has root /tumac-bluegold-live/ (activation shown as in progress; verify active before testing).
 - Domain mail/DNS are kept on ALL-INKL; do not edit MX, nameservers or email during cutover.
 
 ## Mandatory before live cutover
@@ -20,11 +22,16 @@
    same-server duplicate) and verify it opens.
 5. Validate current Google Ads setup including WhatsApp conversion label and consent
    on the final domain. Recorded clicks are not confirmed WhatsApp messages.
-6. Add an isolated production-target folder (proposed: /tumac-bluegold-live/).
-   Create an additional FTP account with its root restricted ONLY to that folder.
-   Keep production credentials in different GitHub secrets, never chat or source.
-7. Prepare a separate, guarded production GitHub Actions workflow. It should upload
-   only to the isolated folder, NOT /tumac-novi/, and require manual approval first.
+6. In the existing /tumac-bluegold-live/ folder create a NEW FILE named EXACTLY
+   .tumac-production-guard with exact contents TUMAC_PRODUCTION_ONLY_V1.
+   This sentinel must be at the FTP account's root; no other directory should contain it.
+7. Confirm in KAS > FTP that dedicated production user f018eb1d is active and rooted
+   ONLY at /tumac-bluegold-live/. Put credentials in separate GitHub Actions repo secrets:
+   ALLINKL_LIVE_FTP_USER = f018eb1d
+   ALLINKL_LIVE_FTP_PASSWORD = its separate generated password.
+   NEVER paste passwords in chat or source. The production workflow is MANUAL ONLY;
+   it requires entering PUBLISH_BLUEGOLD_LIVE and checking the exact guard in FTP root.
+   As shipped, build checks explicitly block deployment while legal pages are marked drafts.
 8. Build the production release with:
    bash deploy/prepare-allinkl-production.sh
    This copies site assets, all 6 legal pages, /me /de /en and the sitemap,
