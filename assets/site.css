@@ -280,3 +280,28 @@ header .lang-switch a[aria-current="page"] .lang-flag{filter:saturate(.85);opaci
   header .lang-switch a[aria-current="page"]::after{bottom:3px;width:12px}
   header .lang-switch .lang-flag{font-size:.83rem}
 }
+
+/* V16 — interactive SC ring: subtle movement only on desktop hover.
+   The existing SC emblem and responsive layout remain unchanged. */
+@media (hover:hover) and (pointer:fine) and (prefers-reduced-motion:no-preference){
+  .hero .hero-seal{
+    transition:filter .55s ease;
+  }
+  .hero .hero-seal::before{
+    animation-duration:26s;
+    animation-play-state:paused;
+    transition:border-color .55s ease,filter .55s ease;
+  }
+  .hero:hover .hero-seal{
+    filter:drop-shadow(0 0 12px rgba(199,180,142,.11));
+  }
+  .hero:hover .hero-seal::before{
+    animation-play-state:running;
+    border-top-color:rgba(218,195,151,.68);
+    border-right-color:rgba(199,180,142,.30);
+    filter:drop-shadow(0 0 6px rgba(199,180,142,.16));
+  }
+}
+@media (prefers-reduced-motion:reduce){
+  .hero .hero-seal,.hero .hero-seal::before{transition:none!important}
+}
