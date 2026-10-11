@@ -137,6 +137,7 @@ body{font-family:Manrope,Arial,sans-serif} .serif,h1,.section-title,.service h3,
   animation:hero-ambient-drift 23s ease-in-out infinite alternate;
 }
 .hero-content{z-index:1}
+.hero .hero-display{animation:none!important}
 .hero-display .hero-title-line{
   display:block;
   opacity:1;
@@ -173,10 +174,11 @@ body{font-family:Manrope,Arial,sans-serif} .serif,h1,.section-title,.service h3,
   box-shadow:0 8px 30px rgba(8,13,10,.11);
   transition:transform .3s cubic-bezier(.2,.75,.2,1),box-shadow .3s ease,background-color .3s ease;
 }
+.hero .button > span{position:relative;z-index:1}
 .hero .button::after{
   content:"";
   position:absolute;
-  z-index:-1;
+  z-index:0;
   top:-20%;
   bottom:-20%;
   left:-90%;
