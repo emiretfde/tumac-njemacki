@@ -65,3 +65,10 @@ Službene SEO smjernice: https://developers.google.com/search/docs/specialty/int
 Prema GSC screenshotovima: **`/me/` je indeksirana**; `/de/` i obje stranice `/me/prevod-saobracajne-dozvole.html`, `/de/prevod-saobracajne-dozvole.html` još imaju `URL is not on Google` / `URL is unknown to Google`, bez prethodnog crawla. **Sve tri neindeksirane stranice imaju uspješan Live Test i dozvoljeno indeksiranje**; obje servisne strane imaju po jedan validan Breadcrumbs rezultat. Prijavljeni `sitemap.xml` je ranije istoga dana ostao na `Couldn't fetch` i 0 discovered, iako nezavisni test XML-a radi.
 
 **Sljedeće:** Ne ponavljati Request Indexing za ranije poslatu `/de/`. Za obje servisne strane zatražiti indeksiranje po jednom (ako nije već urađeno; korisnička potvrda još nije dostavljena). Poslije čekati da Google ponovo obradi sitemap i ažurira Pages izvještaj. Nema dokazanog problema koji bi zahtijevao izmjene koda.
+
+
+### Potvrda korisnika o zahtjevima za indeksiranje (11.10.2026)
+
+Korisnik je potvrdio `REQUEST INDEXING` za dvije servisne stranice o vozilima, nakon što su obje prošle Live Test. `/de/` je već ranije bilo prijavljeno. Ne ponavljati zahtjeve danas; čekati Google obradu. Posljednji vidljivi rezultat i dalje je **1/4 indeksirana** stranica (ME početna). GSC sitemap status `Couldn't fetch` još je pod praćenjem.
+
+Dva odvojena predloga bez objave: `PR #21` host-specifični `noindex` za Cloudflare razvojni host (Cloudflare službeno podržava sintaksu apsolutnih URL-ova i host placeholdera); te promjena trajnog kanonskog preusmjeravanja root/www sa 302 na 301, tek nakon provjere. Oboje mora ostaviti zvanične ME/DE stranice indeksabilnim i ne smije mijenjati dizajn.
