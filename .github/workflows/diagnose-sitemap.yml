@@ -40,8 +40,8 @@ jobs:
               raise SystemExit('XML INVALID: '+str(exc))
           print('XML ROOT:',root.tag)
           links=[e.text for e in root.findall('{http://www.sitemaps.org/schemas/sitemap/0.9}url/{http://www.sitemaps.org/schemas/sitemap/0.9}loc')]
-          print('LANGUAGE PAGE URLS:',links)
-          if len(links)!=3:
+          print('SITEMAP PAGE URLS:',links)
+          if len(links)!=6:
               raise SystemExit('Unexpected sitemap URL count')
           if not all(link and link.startswith('https://tumac-njemacki.me/') for link in links):
               raise SystemExit('Unexpected sitemap hosts')
