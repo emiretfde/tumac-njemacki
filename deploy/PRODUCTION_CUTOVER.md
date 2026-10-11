@@ -76,3 +76,10 @@
 ## SEO compatibility
 - Existing /index.html, /impressum.html and /datenschutz.html URLs are mapped by Apache 301 redirects to the new /me/ URLs in the production package.
 - Cloudflare Pages source remains unchanged so its staging URLs continue to work for development.
+
+## ALL-INKL root redirect fix (2026-10-11)
+- The first live switch showed a 404 with `/www/htdocs/w01a14cb/tumac-bluegold-live/me/` in the URL because Apache converted relative RewriteRule destinations into filesystem paths.
+- Production packaging now generates absolute HTTPS targets for `/`, `/index.html`, `/impressum.html` and `/datenschutz.html`.
+- Redirects are temporarily HTTP 302 to avoid permanent caching during verification; after confirmed public behavior, switch to 301 and redeploy.
+- Re-run the existing MANUAL ALL-INKL production GitHub workflow to upload the corrected `.htaccess`. Do not change KAS Document Root or DNS.
+- Previously cached 301 redirects may persist in an existing browser profile. Test in a fresh private window and on another device; old cached URLs may require clearing site data.
