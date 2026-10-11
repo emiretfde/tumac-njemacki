@@ -1,0 +1,98 @@
+name: ALL-INKL production (manual, guarded)
+
+on:
+  workflow_dispatch:
+    inputs:
+      release_approval:
+        description: 'To deploy into the isolated live folder, type PUBLISH_BLUEGOLD_LIVE'
+        required: true
+        type: string
+
+permissions:
+  contents: read
+
+concurrency:
+  group: allinkl-live-deploy
+  cancel-in-progress: false
+
+jobs:
+  deploy-live-folder:
+    if: ${{ inputs.release_approval == 'PUBLISH_BLUEGOLD_LIVE' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Check out source
+        uses: actions/checkout@v5
+
+      - name: Verify site and legal readiness
+        run: |
+          set -euo pipefail
+          node --check assets/site.js
+          # This build deliberately fails while any legal page is marked as draft.
+          bash deploy/prepare-allinkl-production.sh
+
+      - name: Verify dedicated live FTP credentials
+        env:
+          FTP_USER: ${{ secrets.ALLINKL_LIVE_FTP_USER }}
+          FTP_PASSWORD: ${{ secrets.ALLINKL_LIVE_FTP_PASSWORD }}
+        run: |
+          set -euo pipefail
+          if [[ -z "$FTP_USER" || -z "$FTP_PASSWORD" ]]; then
+            echo "::error::Configure BOTH ALLINKL_LIVE_FTP_USER and ALLINKL_LIVE_FTP_PASSWORD in GitHub Actions secrets."
+            exit 1
+          fi
+          if [[ "$FTP_USER" != "f018eb1d" ]]; then
+            echo "::error::Refusing FTP account other than the dedicated live-folder account."
+            exit 1
+          fi
+
+      - name: Install encrypted FTP client
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y --no-install-recommends lftp
+
+      - name: Verify remote LIVE root guard before any writes
+        env:
+          FTP_USER: ${{ secrets.ALLINKL_LIVE_FTP_USER }}
+          FTP_PASSWORD: ${{ secrets.ALLINKL_LIVE_FTP_PASSWORD }}
+        run: |
+          set -euo pipefail
+          lftp -u "$FTP_USER","$FTP_PASSWORD" -p 21 "ftp://w01a14cb.kasserver.com" -e '
+            set cmd:fail-exit yes
+            set ftp:ssl-force yes
+            set ftp:ssl-protect-data yes
+            set ftp:passive-mode yes
+            set ssl:verify-certificate yes
+            set net:timeout 20
+            set net:max-retries 2
+            get .tumac-production-guard -o live-guard.txt
+            bye
+          '
+          if [[ ! -f live-guard.txt ]] || ! grep -Fxq 'TUMAC_PRODUCTION_ONLY_V1' live-guard.txt; then
+            echo "::error::Expected LIVE root guard not found. No files uploaded."
+            exit 1
+          fi
+
+      - name: Upload production package to restricted folder (NOT a domain switch)
+        env:
+          FTP_USER: ${{ secrets.ALLINKL_LIVE_FTP_USER }}
+          FTP_PASSWORD: ${{ secrets.ALLINKL_LIVE_FTP_PASSWORD }}
+        run: |
+          set -euo pipefail
+          # Dedicated account is rooted at /tumac-bluegold-live/.
+          # Production domain still points at /tumac-novi/ until manual KAS cutover.
+          # No remote files are removed by this command.
+          lftp -u "$FTP_USER","$FTP_PASSWORD" -p 21 "ftp://w01a14cb.kasserver.com" -e '
+            set cmd:fail-exit yes
+            set ftp:ssl-force yes
+            set ftp:ssl-protect-data yes
+            set ftp:passive-mode yes
+            set ssl:verify-certificate yes
+            set net:timeout 20
+            set net:max-retries 2
+            mirror --reverse --no-perms --parallel=2 --verbose=1 ./dist-allinkl-production/ ./
+            bye
+          '
+
+      - name: Upload complete
+        run: echo "Package uploaded to isolated /tumac-bluegold-live/ only. No KAS domain or DNS change was made."
