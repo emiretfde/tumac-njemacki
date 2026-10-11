@@ -6,7 +6,7 @@ out="dist-allinkl-staging"
 rm -rf -- "$out"
 mkdir -p -- "$out"
 
-for path in assets me de en favicon.svg; do
+for path in assets me de favicon.svg 404.html; do
   if [[ ! -e "$path" ]]; then
     echo "Missing required site path: $path" >&2
     exit 1
@@ -14,13 +14,13 @@ for path in assets me de en favicon.svg; do
   cp -R -- "$path" "$out/"
 done
 
-for language in me de en; do
+for language in me de; do
   test -s "$out/$language/index.html" || {
     echo "Missing page for $language" >&2
     exit 1
   }
 done
-for language in me de en; do
+for language in me de; do
   for legal in impressum datenschutz; do
     test -s "$out/$language/$legal.html" || {
       echo "Missing translated legal page: $language/$legal.html" >&2
@@ -41,8 +41,14 @@ EOF
 cat > "$out/.htaccess" <<'EOF'
 Options -Indexes
 DirectoryIndex index.html
+ErrorDocument 404 /404.html
+ErrorDocument 410 /404.html
+AddType font/woff2 .woff2
 RewriteEngine On
-RewriteRule ^$ me/ [R=302,L]
+# Absolute targets: ALL-INKL turns relative redirect targets into filesystem paths.
+RewriteRule ^$ https://preview.tumac-njemacki.me/me/ [R=302,L]
+# V3: English removed completely; same 410 Gone as production.
+RewriteRule ^en(/.*)?$ - [G,L,NC]
 <IfModule mod_headers.c>
   Header always set X-Robots-Tag "noindex, nofollow, noarchive"
 </IfModule>

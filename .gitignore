@@ -1,0 +1,4 @@
+# Local build output of deploy/prepare-allinkl-*.sh
+dist-allinkl-production/
+dist-allinkl-staging/
+__pycache__/

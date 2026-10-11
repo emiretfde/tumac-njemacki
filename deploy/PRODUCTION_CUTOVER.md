@@ -43,7 +43,7 @@
    As shipped, build checks explicitly block deployment while legal pages are marked drafts.
 8. Build the production release with:
    bash deploy/prepare-allinkl-production.sh
-   This copies site assets, all 6 legal pages, /me /de /en and the sitemap,
+   This copies site assets (incl. self-hosted fonts), the 4 legal pages, /me /de and the sitemap,
    rewrites canonical/hreflang/JSON-LD/OG and sitemap to https://tumac-njemacki.me,
    and creates production .htaccess with / -> /me/ 301.
    Current site SOURCE remains on pages.dev; build must not change preview canonicals.
@@ -55,7 +55,7 @@
     WhatsApp, Viber and Google Ads tag behavior on the intended live hostname.
 11. In KAS > Domains > Edit, change ONLY tumac-njemacki.me Document Root from
     /tumac-novi/ to /tumac-bluegold-live/. Do NOT change DNS, mail or server config.
-12. Verify https://tumac-njemacki.me and /me /de /en, HTTPS and redirection
+12. Verify https://tumac-njemacki.me and /me /de, 410 Gone for /en/ URLs, HTTPS and redirection
     immediately. Check all legal links, tag firing only after opt-in, site speed,
     robots.txt and sitemap.xml, old site URLs and any redirects if necessary.
 13. If there is an incident, restore Document Root to /tumac-novi/ in KAS.

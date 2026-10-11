@@ -1,2 +1,4 @@
 / /me/ 301
 /index.html /me/ 301
+# V3: the English version was removed completely (no redirects).
+# /en/ URLs return 404 here (Cloudflare Pages staging) and 410 Gone on ALL-INKL production.
