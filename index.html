@@ -117,6 +117,14 @@ body{font-family:Manrope,Arial,sans-serif} .serif,h1,.section-title,.service h3,
   .site-nav{left:-21px;right:-21px;background:#252f2b}
 }
 @media(max-width:365px){.identity-txt small{display:none}.identity-txt{max-width:88px}}
+
+/* V10 — Viber deep-link compatibility and unobtrusive fallback */
+.viber-help{display:none;align-items:center;gap:7px;flex-wrap:wrap;margin-top:15px;color:#bbc5bb;font-size:.74rem}
+.viber-copy-button{border:0;border-bottom:1px solid #c7b48e85;border-radius:0;background:transparent;color:#e0ceaa;font:inherit;cursor:pointer;padding:2px 0}
+.viber-copy-button:hover{color:#fff3dc;border-bottom-color:#e0ceaa}
+.viber-copy-button:focus-visible{outline:2px solid #dfcda8;outline-offset:4px}
+.viber-copy-feedback{color:#e0ceaa}
+@media(max-width:850px){.viber-help{display:flex}}
 </style>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"Person","name":"Sead Crnovršanin","jobTitle":"Sudski tumač za njemački jezik","knowsLanguage":["de","cnr"],"description":"Prevod dokumenata sa njemačkog jezika i na njemački jezik.","areaServed":{"@type":"Country","name":"Montenegro"}}</script>
 </head>
@@ -169,6 +177,7 @@ body{font-family:Manrope,Arial,sans-serif} .serif,h1,.section-title,.service h3,
     <span>Viber</span>
   </a>
 </div>
+<div class="viber-help"><span class="viber-help-label">Viber ne otvara kontakt?</span> <button type="button" class="viber-copy-button">Kopiraj broj</button><span class="viber-copy-feedback" role="status" aria-live="polite"></span></div>
 <p class="contact-privacy">Sajt ne prikuplja niti čuva dokumente. Za upite koristite direktno e-mail ili aplikaciju za poruke.</p>
 </div></div></section>
 </main>
@@ -189,9 +198,49 @@ const enTitle='Sead Crnovršanin — Certified German Document Translations';
 const nodes=[];
 const walker=document.createTreeWalker(document.body,NodeFilter.SHOW_TEXT,{acceptNode(node){return node.parentElement&& !['SCRIPT','STYLE'].includes(node.parentElement.tagName)&&translations[node.nodeValue.trim()]!==undefined?NodeFilter.FILTER_ACCEPT:NodeFilter.FILTER_REJECT}});
 while(walker.nextNode()){const node=walker.currentNode;nodes.push([node,node.nodeValue,node.nodeValue.trim()]);}
+
+const viberLink=document.querySelector('[data-contact="viber"]');
+const ua=navigator.userAgent||'';
+const ios=/iPad|iPhone|iPod/i.test(ua)||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1);
+const android=/Android/i.test(ua);
+// iOS tends to resolve a contact URI, Android a direct chat URI.
+// The desktop URI remains unchanged because it is known to work there.
+if(ios){
+ viberLink.href='viber://contact?number=%2B38267998199';
+}else if(android){
+ viberLink.href='viber://chat?number=38267998199';
+}
+const viberCopy=document.querySelector('.viber-copy-button');
+const viberHelpLabel=document.querySelector('.viber-help-label');
+const viberCopyFeedback=document.querySelector('.viber-copy-feedback');
+let viberLanguage='me';
+const viberUi={
+ me:{help:'Viber ne otvara kontakt?',copy:'Kopiraj broj',copied:'Broj kopiran',manual:'Kopirajte broj i pronađite kontakt u Viberu.'},
+ de:{help:'Viber öffnet den Kontakt nicht?',copy:'Nummer kopieren',copied:'Nummer kopiert',manual:'Nummer kopieren und den Kontakt in Viber suchen.'},
+ en:{help:'Viber not opening?',copy:'Copy number',copied:'Number copied',manual:'Copy the number and find the contact in Viber.'}
+};
+function setViberLanguage(lang){
+ viberLanguage=viberUi[lang]?lang:'me';
+ viberHelpLabel.textContent=viberUi[viberLanguage].help;
+ viberCopy.textContent=viberUi[viberLanguage].copy;
+ viberCopyFeedback.textContent='';
+}
+viberCopy.addEventListener('click',async()=>{
+ const number='+38267998199';
+ try{
+  if(!navigator.clipboard||!navigator.clipboard.writeText)throw new Error('Clipboard unavailable');
+  await navigator.clipboard.writeText(number);
+  viberCopyFeedback.textContent=viberUi[viberLanguage].copied;
+ }catch(e){
+  // Manual selection works even when in-app browsers block clipboard access.
+  window.prompt(viberUi[viberLanguage].manual,number);
+ }
+});
+
 const buttons=Array.from(document.querySelectorAll('[data-lang]'));
 const menu=document.querySelector('.mobile-toggle');
 function setLanguage(lang){
+ setViberLanguage(lang);
  document.documentElement.lang=lang==='de'?'de':lang==='en'?'en':'sr-Latn-ME';
  document.title=lang==='de'?deTitle:lang==='en'?enTitle:originalTitle;
  nodes.forEach(([node,original,key])=>{node.nodeValue=lang==='de'?original.replace(key,translations[key]):lang==='en'?original.replace(key,english[key]??key):original});
