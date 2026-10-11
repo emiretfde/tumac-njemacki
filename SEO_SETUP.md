@@ -72,3 +72,8 @@ Prema GSC screenshotovima: **`/me/` je indeksirana**; `/de/` i obje stranice `/m
 Korisnik je potvrdio `REQUEST INDEXING` za dvije servisne stranice o vozilima, nakon što su obje prošle Live Test. `/de/` je već ranije bilo prijavljeno. Ne ponavljati zahtjeve danas; čekati Google obradu. Posljednji vidljivi rezultat i dalje je **1/4 indeksirana** stranica (ME početna). GSC sitemap status `Couldn't fetch` još je pod praćenjem.
 
 Dva odvojena predloga bez objave: `PR #21` host-specifični `noindex` za Cloudflare razvojni host (Cloudflare službeno podržava sintaksu apsolutnih URL-ova i host placeholdera); te promjena trajnog kanonskog preusmjeravanja root/www sa 302 na 301, tek nakon provjere. Oboje mora ostaviti zvanične ME/DE stranice indeksabilnim i ne smije mijenjati dizajn.
+
+
+### Google Business Profile odložen (11.10.2026)
+
+Emir navodi da Sead, prema njegovom saznanju, **nema stalnu kancelariju**. Zato je donesena odluka da se Google Maps / Business Profile **zasad ne otvara**; nastavlja se besplatni organski SEO na domenu i Search Console. Bez provjerenog poslovnog mjesta nikako ne navoditi četiri grada preuzimanja kao četiri kancelarije. Google dopušta service-area business bez izložene adrese **ako postoji stvarni lični kontakt na lokaciji klijenata**; isključivo online poslovanje nema pravo na profil. Ako Sead naknadno potvrdi terensku uslugu sa ličnim kontaktom, ponovno ocijeniti podobnost. Izvori: https://support.google.com/business/answer/3038177 ; https://support.google.com/business/answer/13763036 .
