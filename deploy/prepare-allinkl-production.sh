@@ -9,7 +9,7 @@ destination="dist-allinkl-production"
 rm -rf -- "$destination"
 mkdir -p -- "$destination"
 
-for source in assets me de en favicon.svg sitemap.xml robots.txt; do
+for source in assets me de en favicon.svg sitemap.xml robots.txt google9ea0a3ecbd8b4bde.html; do
   test -e "$source" || { echo "Missing required source: $source" >&2; exit 1; }
   cp -R -- "$source" "$destination/"
 done
@@ -29,6 +29,14 @@ done
 
 test -s "$destination/assets/site.css"
 test -s "$destination/assets/site.js"
+
+# Ownership verification must be publicly available at the domain root.
+# Validate exact payload before publishing: no HTML wrapper or accidental edits.
+verify_file="$destination/google9ea0a3ecbd8b4bde.html"
+test "$(cat "$verify_file")" = "google-site-verification: google9ea0a3ecbd8b4bde.html" || {
+  echo "Invalid Google Search Console ownership verification file." >&2
+  exit 1
+}
 
 # Replace staging canonicals and reciprocal hreflang / social links,
 # including URLs embedded in JSON-LD. Do not alter the source repo.
