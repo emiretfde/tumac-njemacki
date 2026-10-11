@@ -12,16 +12,25 @@
 - Dedicated production FTP user f018eb1d has root /tumac-bluegold-live/ (activation shown as in progress; verify active before testing).
 - Domain mail/DNS are kept on ALL-INKL; do not edit MX, nameservers or email during cutover.
 
+## Latest status
+- Sead has confirmed the source Impressum and privacy text (reported by user on 2026-10-11).
+- All six localized legal pages have had their explicit draft banners removed; this is editorial approval, NOT an independent legal opinion.
+- Independent backup archive of the original /tumac-novi/ site was prepared from the original five files and given to user; confirm user has downloaded/stored it before cutover.
+- Production guard .tumac-production-guard with TUMAC_PRODUCTION_ONLY_V1 was created at /tumac-bluegold-live/ and GitHub secrets were added.
+- Manual FTPS read-only live connection check passed in GitHub Actions.
+- The production workflow still has no automatic trigger; production upload and domain switch have NOT happened yet.
+
 ## Mandatory before live cutover
-1. Verify legal facts with Sead, including address, 2022 appointment and its validity,
-   the privacy notice's data processing and actual retention policies, cookie consent.
-2. Remove the explicit draft notices from ALL 6 localized legal pages only after review.
-   deploy/prepare-allinkl-production.sh intentionally FAILS while legal pages are drafts.
+1. Sead confirmed the supplied legal texts, as reported by user. Keep a record of his confirmation.
+   For legal certainty, a qualified adviser may still review the notices, appointment and retention claims.
+2. The explicit draft banners were removed from all 6 localized legal pages after Sead's confirmation.
+   deploy/prepare-allinkl-production.sh remains protected: it FAILS if any draft banner returns.
 3. Review external Google Fonts and platform processing; consider local fonts if needed.
 4. Independently back up old active /tumac-novi/ to a computer (not only the existing
    same-server duplicate) and verify it opens.
 5. Validate current Google Ads setup including WhatsApp conversion label and consent
    on the final domain. Recorded clicks are not confirmed WhatsApp messages.
+   The tracking code runs only on tumac-njemacki.me and www.tumac-njemacki.me after opt-in.
 6. In the existing /tumac-bluegold-live/ folder create a NEW FILE named EXACTLY
    .tumac-production-guard with exact contents TUMAC_PRODUCTION_ONLY_V1.
    This sentinel must be at the FTP account's root; no other directory should contain it.
@@ -63,3 +72,7 @@
 - Do not use the primary FTP account to automate deployments.
 - Do not delete original site, backups, email users or DNS records.
 - Do not claim production is ready or live solely because the staging workflow succeeded.
+
+## SEO compatibility
+- Existing /index.html, /impressum.html and /datenschutz.html URLs are mapped by Apache 301 redirects to the new /me/ URLs in the production package.
+- Cloudflare Pages source remains unchanged so its staging URLs continue to work for development.

@@ -47,6 +47,10 @@ cat > "$destination/.htaccess" <<'EOF'
 Options -Indexes
 DirectoryIndex index.html
 RewriteEngine On
+# Preserve old indexed legal URLs when the new site goes live.
+RewriteRule ^impressum\.html$ me/impressum.html [R=301,L,NC]
+RewriteRule ^datenschutz\.html$ me/datenschutz.html [R=301,L,NC]
+RewriteRule ^index\.html$ me/ [R=301,L,NC]
 RewriteRule ^$ me/ [R=301,L]
 <IfModule mod_headers.c>
   Header always set X-Content-Type-Options "nosniff"
