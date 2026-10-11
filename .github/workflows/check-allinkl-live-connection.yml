@@ -1,0 +1,24 @@
+name: ALL-INKL live connection check (read-only)
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - name: Check FTPS access to the isolated live directory
+        env:
+          FTP_USER: ${{ secrets.ALLINKL_LIVE_FTP_USER }}
+          FTP_PASSWORD: ${{ secrets.ALLINKL_LIVE_FTP_PASSWORD }}
+        run: |
+          set -euo pipefail
+          test "$FTP_USER" = "f018eb1d"
+          test -n "$FTP_PASSWORD"
+          curl --fail --silent --show-error --ftp-ssl-reqd --user "$FTP_USER:$FTP_PASSWORD" --output check-marker.txt "ftp://w01a14cb.kasserver.com/.tumac-production-guard"
+          grep -Fxq 'TUMAC_PRODUCTION_ONLY_V1' check-marker.txt
+          echo "FTPS account and isolated folder verified; no upload performed."
