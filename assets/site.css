@@ -232,3 +232,58 @@ body{font-family:Manrope,Arial,sans-serif} .serif,h1,.section-title,.service h3,
   .hero .button{transition:none!important}
 }
 
+
+
+/* V13 — editorial fountain pen: one refined writing gesture, not a looping effect.
+   SVG is inline, decorative and lightweight; existing hero, SEO and buttons remain intact. */
+.hero-ink-signature{
+  position:relative;
+  z-index:1;
+  width:min(350px,83%);
+  margin:12px 4% -39px auto;
+  color:#d8c49b;
+  pointer-events:none;
+  opacity:.91;
+  user-select:none;
+}
+.hero-ink-signature svg{display:block;width:100%;height:auto;overflow:visible}
+.hero-ink-trail,.hero-ink-ghost{
+  stroke-dasharray:100;
+  stroke-dashoffset:100;
+  animation:signature-ink-write 2.35s cubic-bezier(.35,.18,.52,.95) 1.3s both;
+}
+.hero-ink-ghost{opacity:.11}
+.hero-pen-nib{
+  opacity:0;
+  animation:signature-nib-appear 4.2s linear both;
+  filter:drop-shadow(0 1px 2px rgba(5,8,5,.23));
+}
+.hero-ink-point{
+  opacity:0;
+  animation:signature-ink-dot .65s ease-out 3.6s both;
+}
+@keyframes signature-ink-write{
+  from{stroke-dashoffset:100}
+  to{stroke-dashoffset:0}
+}
+@keyframes signature-nib-appear{
+  0%,29%{opacity:0}
+  33%,89%{opacity:.94}
+  100%{opacity:0}
+}
+@keyframes signature-ink-dot{
+  from{opacity:0}
+  to{opacity:.8}
+}
+@media(max-width:1050px){
+  .hero-ink-signature{width:min(300px,80%);margin-right:1%;margin-top:15px}
+}
+@media(max-width:760px){
+  .hero-ink-signature{width:min(310px,83vw);margin:14px 0 -42px 2%}
+}
+@media(prefers-reduced-motion:reduce){
+  .hero-ink-trail,.hero-ink-ghost{animation:none!important;stroke-dashoffset:0!important}
+  .hero-pen-nib{display:none!important}
+  .hero-ink-point{animation:none!important;opacity:.8!important}
+}
+
