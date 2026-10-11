@@ -16,7 +16,7 @@
 | Cloudflare Pages | https://tumac-njemacki.pages.dev — razvojna adresa; nije produkcioni hosting |
 | Jezici | Samo **ME `/me/` i DE `/de/`**; engleski je povučen |
 | Kontakt | `+382 67 99 81 99`, `info@tumac-njemacki.me`; telefon, WhatsApp i Viber |
-| Status objave | GitHub Actions **Production run #38132612919 — success**, `main` commit `d66efe4`, 11.10.2026. u 12:37 UTC |
+| Status objave | GitHub Actions **Production run #38132612919 — success**, `main` commit `d66efe4`, 11.10.2026. u 12:37 po vremenu CG (10:37 UTC) |
 | Provjera sitemap-a | GitHub Actions **read-only #38132882924 — success**, četiri URL-a i XML MIME |
 | Aktivni PR prije ovog sređivanja | #20, `docs/handoff-v3`, **dokumentacija**; nema novih funkcionalnih izmjena od PR #19 |
 
