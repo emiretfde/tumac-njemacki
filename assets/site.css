@@ -164,6 +164,8 @@ h3{font-family:var(--sans);font-size:1.0625rem;line-height:1.35}
 .places{display:flex;flex-wrap:wrap;gap:8px;list-style:none;margin:0 0 14px;padding:0}
 .places li{display:inline-flex;align-items:center;gap:6px;min-height:40px;padding:6px 14px;background:var(--card);border:1px solid var(--line);border-radius:999px;font-weight:600;font-size:.975rem}
 .places .icon{width:17px;height:17px;color:var(--gold-ink)}
+.places .places-courier{background:#e9e3d4;border-color:#d9c9a3}
+.hero-places+.hero-places{margin-top:6px}
 .delivery-text{max-width:620px;color:var(--muted);margin:0}
 
 /* FAQ */
