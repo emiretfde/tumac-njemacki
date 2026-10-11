@@ -41,7 +41,7 @@ jobs:
           print('XML ROOT:',root.tag)
           links=[e.text for e in root.findall('{http://www.sitemaps.org/schemas/sitemap/0.9}url/{http://www.sitemaps.org/schemas/sitemap/0.9}loc')]
           print('SITEMAP PAGE URLS:',links)
-          if len(links)!=6:
+          if len(links)!=4:  # V3: ME + DE home and vehicle pages
               raise SystemExit('Unexpected sitemap URL count')
           if not all(link and link.startswith('https://tumac-njemacki.me/') for link in links):
               raise SystemExit('Unexpected sitemap hosts')

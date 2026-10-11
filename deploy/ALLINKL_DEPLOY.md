@@ -28,7 +28,7 @@ Automatizacija PRVO provjerava da FTP root sadrzi .tumac-staging-guard sa sadrza
 ## PRVI test (rucni)
 1. GitHub -> Actions -> ALL-INKL staging (manual, isolated) -> Run workflow -> main.
 2. Sacekati zelen status. Ako FTPS TLS provjera ne uspije, ne iskljucivati certifikat.
-3. Testirati https://preview.tumac-njemacki.me/me/, /de/ i /en/.
+3. Testirati https://preview.tumac-njemacki.me/me/ i /de/; /en/ mora preusmjeriti na /me/ (V3).
 4. Provjeriti CSS, telefon, WhatsApp, Viber na mobilnom uredjaju, navigaciju i brzinu.
 5. Provjeriti da preview domen ne moze u Google: staging robots.txt je Disallow: / i Apache header je noindex.
 6. Provjeriti da korijenska adresa preview domena vodi na /me/ preko privremenog HTTP 302.

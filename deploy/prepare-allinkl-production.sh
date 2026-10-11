@@ -9,12 +9,12 @@ destination="dist-allinkl-production"
 rm -rf -- "$destination"
 mkdir -p -- "$destination"
 
-for source in assets me de en favicon.svg sitemap.xml robots.txt google9ea0a3ecbd8b4bde.html; do
+for source in assets me de favicon.svg sitemap.xml robots.txt google9ea0a3ecbd8b4bde.html; do
   test -e "$source" || { echo "Missing required source: $source" >&2; exit 1; }
   cp -R -- "$source" "$destination/"
 done
 
-for lang in me de en; do
+for lang in me de; do
   for doc in impressum datenschutz; do
     file="$destination/$lang/$doc.html"
     test -s "$file" || { echo "Missing legal page: $file" >&2; exit 1; }
@@ -31,6 +31,17 @@ done
 test -s "$destination/assets/site.css"
 test -s "$destination/assets/site.js"
 
+# V3: self-hosted fonts must ship with the package (no Google Fonts requests).
+for font in cormorant-garamond-latin-600-normal cormorant-garamond-latin-ext-600-normal manrope-latin-400-normal manrope-latin-ext-400-normal; do
+  test -s "$destination/assets/fonts/$font.woff2" || { echo "Missing font: $font" >&2; exit 1; }
+done
+
+# V3: English was retired. It must not come back as a page, hreflang or sitemap entry.
+if [[ -e "$destination/en" ]]; then echo "BLOCKED: /en/ must not be published (redirected instead)." >&2; exit 1; fi
+if grep -R -q -E 'hreflang="en"|tumac-njemacki\.pages\.dev/en/' "$destination/me" "$destination/de" "$destination/sitemap.xml"; then
+  echo "BLOCKED: English hreflang or URL still referenced." >&2; exit 1
+fi
+
 # Ownership verification must be publicly available at the domain root.
 # Validate exact payload before publishing: no HTML wrapper or accidental edits.
 verify_file="$destination/google9ea0a3ecbd8b4bde.html"
@@ -41,14 +52,14 @@ test "$(cat "$verify_file")" = "google-site-verification: google9ea0a3ecbd8b4bde
 
 # Replace staging canonicals and reciprocal hreflang / social links,
 # including URLs embedded in JSON-LD. Do not alter the source repo.
-for lang in me de en; do
+for lang in me de; do
   for html in "$destination/$lang/"*.html; do
     sed -i 's@https://tumac-njemacki.pages.dev@https://tumac-njemacki.me@g' "$html"
   done
 done
 sed -i 's@https://tumac-njemacki.pages.dev@https://tumac-njemacki.me@g' "$destination/sitemap.xml" "$destination/robots.txt"
 
-if grep -R -q 'tumac-njemacki.pages.dev' "$destination/me" "$destination/de" "$destination/en" "$destination/sitemap.xml" "$destination/robots.txt"; then
+if grep -R -q 'tumac-njemacki.pages.dev' "$destination/me" "$destination/de" "$destination/sitemap.xml" "$destination/robots.txt"; then
   echo "BLOCKED: staging canonical remains in production package." >&2
   exit 1
 fi
@@ -60,6 +71,7 @@ DirectoryIndex index.html
 
 # Force correct XML MIME to prevent browsers from interpreting sitemap tags as HTML.
 AddType application/xml .xml
+AddType font/woff2 .woff2
 <Files "sitemap.xml">
   ForceType application/xml
 </Files>
@@ -73,6 +85,15 @@ RewriteRule ^ https://tumac-njemacki.me%{REQUEST_URI} [R=302,L,NE]
 RewriteRule ^impressum\.html$ https://tumac-njemacki.me/me/impressum.html [R=302,L,NC]
 RewriteRule ^datenschutz\.html$ https://tumac-njemacki.me/me/datenschutz.html [R=302,L,NC]
 RewriteRule ^index\.html$ https://tumac-njemacki.me/me/ [R=302,L,NC]
+
+# V3: English version retired. Permanent redirects to the Montenegrin equivalents
+# (x-default). Absolute public URLs only, never relative targets on ALL-INKL.
+RewriteRule ^en/?$ https://tumac-njemacki.me/me/ [R=301,L,NC]
+RewriteRule ^en/index\.html$ https://tumac-njemacki.me/me/ [R=301,L,NC]
+RewriteRule ^en/prevod-saobracajne-dozvole\.html$ https://tumac-njemacki.me/me/prevod-saobracajne-dozvole.html [R=301,L,NC]
+RewriteRule ^en/impressum\.html$ https://tumac-njemacki.me/me/impressum.html [R=301,L,NC]
+RewriteRule ^en/datenschutz\.html$ https://tumac-njemacki.me/me/datenschutz.html [R=301,L,NC]
+RewriteRule ^en/ https://tumac-njemacki.me/me/ [R=301,L,NC]
 RewriteRule ^$ https://tumac-njemacki.me/me/ [R=302,L]
 
 <IfModule mod_headers.c>
@@ -95,7 +116,7 @@ EOF
 
 # A production package must have an indexable sitemap pointing to the right host.
 grep -Fq 'https://tumac-njemacki.me/sitemap.xml' "$destination/robots.txt" || { echo "Bad robots sitemap URL" >&2; exit 1; }
-for lang in me de en; do
+for lang in me de; do
   grep -Fq "https://tumac-njemacki.me/$lang/" "$destination/$lang/index.html" || { echo "Missing real-domain URLs: $lang" >&2; exit 1; }
   grep -Fq "https://tumac-njemacki.me/$lang/prevod-saobracajne-dozvole.html" "$destination/$lang/prevod-saobracajne-dozvole.html" || { echo "Vehicle page still points at staging: $lang" >&2; exit 1; }
 done

@@ -1,2 +1,11 @@
 / /me/ 301
 /index.html /me/ 301
+# V3: the English version was retired. Permanent redirects to the Montenegrin
+# equivalents (x-default). Specific rules first, then a catch-all.
+/en /me/ 301
+/en/ /me/ 301
+/en/index.html /me/ 301
+/en/prevod-saobracajne-dozvole.html /me/prevod-saobracajne-dozvole.html 301
+/en/impressum.html /me/impressum.html 301
+/en/datenschutz.html /me/datenschutz.html 301
+/en/* /me/ 301

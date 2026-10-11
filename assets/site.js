@@ -3,40 +3,49 @@
   const year=document.getElementById('year');
   if(year) year.textContent=String(new Date().getFullYear());
 
-  const toggle=document.querySelector('.mobile-toggle');
+  // Mobile menu. Without JavaScript the links stay visible (see .js rules in site.css).
+  const toggle=document.querySelector('.nav-toggle');
   const nav=document.getElementById('nav');
+  function closeMenu(){
+    if(!toggle||!nav) return;
+    nav.classList.remove('open');
+    toggle.setAttribute('aria-expanded','false');
+  }
   if(toggle&&nav){
     toggle.addEventListener('click',()=>{
       const open=nav.classList.toggle('open');
       toggle.setAttribute('aria-expanded',String(open));
-      toggle.classList.toggle('is-open',open);
     });
-    nav.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>{
-      nav.classList.remove('open');
-      toggle.setAttribute('aria-expanded','false');
-      toggle.classList.remove('is-open');
-    }));
+    nav.querySelectorAll('a').forEach(a=>a.addEventListener('click',closeMenu));
+    document.addEventListener('keydown',e=>{
+      if(e.key==='Escape'&&nav.classList.contains('open')){closeMenu();toggle.focus();}
+    });
   }
 
-  // Preserve the mobile Viber links confirmed by the site owner.
-  const viber=document.querySelector('[data-contact="viber"]');
-  if(viber){
+  // Preserve the mobile Viber links confirmed by the site owner (V10 logic, unchanged
+  // deep-link formats). V3 has several Viber buttons per page, so the same rewrite is
+  // applied to each of them instead of only the first one.
+  const vibers=document.querySelectorAll('[data-contact="viber"]');
+  if(vibers.length){
     const ua=navigator.userAgent||'';
     const ios=/iPad|iPhone|iPod/i.test(ua)||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1);
     const android=/Android/i.test(ua);
-    if(ios) viber.href='viber://contact?number=%2B38267998199';
-    else if(android) viber.href='viber://chat?number=38267998199';
-    const copy=document.querySelector('.viber-copy-button');
-    const feedback=document.querySelector('.viber-copy-feedback');
-    if(copy) copy.addEventListener('click',async()=>{
-      const number='+38267998199';
-      try{
-        if(!navigator.clipboard?.writeText) throw new Error('Clipboard API unavailable');
-        await navigator.clipboard.writeText(number);
-        if(feedback) feedback.textContent=copy.dataset.copied||'Copied';
-      }catch(e){
-        window.prompt(copy.dataset.manual||'Copy this number:',number);
-      }
+    vibers.forEach(viber=>{
+      if(ios) viber.href='viber://contact?number=%2B38267998199';
+      else if(android) viber.href='viber://chat?number=38267998199';
+    });
+    document.querySelectorAll('.viber-copy-button').forEach(copy=>{
+      const feedback=copy.parentElement&&copy.parentElement.querySelector('.viber-copy-feedback');
+      copy.addEventListener('click',async()=>{
+        const number='+38267998199';
+        try{
+          if(!navigator.clipboard?.writeText) throw new Error('Clipboard API unavailable');
+          await navigator.clipboard.writeText(number);
+          if(feedback) feedback.textContent=copy.dataset.copied||'Copied';
+        }catch(e){
+          window.prompt(copy.dataset.manual||'Copy this number:',number);
+        }
+      });
     });
   }
 
@@ -60,6 +69,7 @@
   }
   function renderConsent(){
     if(panel) panel.hidden=readConsent()!==null;
+    updateDock();
   }
   function initializeAds(){
     if(!isProduction||readConsent()!=='yes'||adsInitialized) return;
@@ -82,6 +92,32 @@
     tag.async=true;
     tag.src='https://www.googletagmanager.com/gtag/js?id='+encodeURIComponent(adsId);
     document.head.appendChild(tag);
+  }
+
+  // Sticky contact bar on phones: shown only after the first contact buttons have
+  // scrolled away, hidden in the contact section and while the consent notice is open.
+  const dock=document.querySelector('[data-dock]');
+  const dockState={pastHero:false,atContact:false};
+  function updateDock(){
+    if(!dock) return;
+    const consentOpen=panel&&!panel.hidden;
+    const show=dockState.pastHero&&!dockState.atContact&&!consentOpen;
+    dock.classList.toggle('show',show);
+    dock.toggleAttribute('inert',!show);
+    dock.setAttribute('aria-hidden',String(!show));
+    document.body.classList.toggle('has-dock',show);
+  }
+  if(dock&&'IntersectionObserver' in window){
+    const heroActions=document.querySelector('[data-dock-after]');
+    const contact=document.getElementById('kontakt');
+    if(heroActions) new IntersectionObserver(entries=>{
+      entries.forEach(en=>{dockState.pastHero=!en.isIntersecting&&en.boundingClientRect.top<0});
+      updateDock();
+    }).observe(heroActions);
+    if(contact) new IntersectionObserver(entries=>{
+      entries.forEach(en=>{dockState.atContact=en.isIntersecting});
+      updateDock();
+    },{rootMargin:'0px 0px -35% 0px'}).observe(contact);
   }
 
   if(panel){
