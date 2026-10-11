@@ -58,3 +58,10 @@ Službene SEO smjernice: https://developers.google.com/search/docs/specialty/int
 - **Sitemaps → /sitemap.xml**: **“Couldn't fetch”**, **“Sitemap could not be read”**, posljednje čitanje 11.10.2026, **0 discovered pages**. Stanje i dalje postoji na dan objave.
 - Nezavisni read-only GitHub Actions run [#38132882924](https://github.com/emiretfde/tumac-njemacki/actions/runs/38132882924) ranije je potvrdio HTTP 200, validan XML i 4 produkciona URL-a; time **nije** potvrđeno da je Google obradio sitemap.
 - **Ne raditi odmah promjene servera ili brisati/re-submittovati sitemap.** Dati Googleu 24–72 sata za novu provjeru; ako ostane greška, dijagnostikovati HTTP pristup, robots i hosting logove. Prvo pregledati pojedinačne GSC statuse za `/de/` i obje stranice za vozila. 
+
+
+### Potpuna pojedinačna URL Inspection provjera — 11.10.2026, oko 16:10
+
+Prema GSC screenshotovima: **`/me/` je indeksirana**; `/de/` i obje stranice `/me/prevod-saobracajne-dozvole.html`, `/de/prevod-saobracajne-dozvole.html` još imaju `URL is not on Google` / `URL is unknown to Google`, bez prethodnog crawla. **Sve tri neindeksirane stranice imaju uspješan Live Test i dozvoljeno indeksiranje**; obje servisne strane imaju po jedan validan Breadcrumbs rezultat. Prijavljeni `sitemap.xml` je ranije istoga dana ostao na `Couldn't fetch` i 0 discovered, iako nezavisni test XML-a radi.
+
+**Sljedeće:** Ne ponavljati Request Indexing za ranije poslatu `/de/`. Za obje servisne strane zatražiti indeksiranje po jednom (ako nije već urađeno; korisnička potvrda još nije dostavljena). Poslije čekati da Google ponovo obradi sitemap i ažurira Pages izvještaj. Nema dokazanog problema koji bi zahtijevao izmjene koda.

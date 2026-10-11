@@ -164,3 +164,20 @@ Pri promjenama CSS-a ili JS-a povećati `ASSET_V` u generatoru (trenutno `3.0.0`
 - **Naredni ručni korak:** URL Inspection `https://tumac-njemacki.me/de/`, zatim `/me/prevod-saobracajne-dozvole.html` i `/de/prevod-saobracajne-dozvole.html`. Ako imaju status “URL is not on Google” uz uspješan Live Test, zatražiti indeksiranje pojedinačno.
 - **Odvojena SEO promjena:** draft PR #21 `seo/noindex-cloudflare-development` predlaže `_headers` za razvojni Pages hostname; **nije spojen, nije objavljen**, nije dio ovog GSC nalaza. Prije spajanja treba potvrditi semantiku Cloudflare `_headers` i provjeriti da zaista važi samo na razvojnom hostu. Nikako ne dodati `noindex` na produkciju.
 - Nema izmjena HTML/CSS/JS, vizuelnog dizajna ili produkcionog deploya tokom ovog koraka.
+
+
+### Dopuna 11.10.2026, oko 16:10 — pregled svih 4 produkciona indeksabilna URL-a (screenshotovi)
+
+| URL | Google Index / status | Google Live Test |
+| --- | --- | --- |
+| `/me/` | **Indeksiran** — `URL is on Google` / `Page is indexed` | raniji uspješan test |
+| `/de/` | **Nije indeksiran** — `URL is unknown to Google`; `No referring sitemaps detected`; `Last crawl: N/A` | **Indexable** — `URL is available to Google` |
+| `/me/prevod-saobracajne-dozvole.html` | **Nije indeksiran** — `URL is unknown to Google`; `No referring sitemaps detected`; `Last crawl: N/A` | **Indexable** — `URL is available to Google`; **Breadcrumbs: 1 valid item** |
+| `/de/prevod-saobracajne-dozvole.html` | **Nije indeksiran** — `URL is unknown to Google`; `No referring sitemaps detected`; `Last crawl: N/A` | **Indexable** — `URL is available to Google`; **Breadcrumbs: 1 valid item** |
+
+- Potvrđeno je **1/4 indeksiran**, 3/4 trenutno još nijesu u Google indeksu. Uspješan Live Test ne znači da je URL već indeksiran.
+- Google Search Console `Pages` zbirni izvještaj još obrađuje podatke, a `sitemap.xml` i dalje pokazuje `Couldn't fetch` / 0 discovered prema GSC screenshotovima oko 15:47, bez nove potvrde statusa poslije toga. Ranija nezavisna XML HTTP dijagnostika je prošla.
+- `/de/` je **već ranije poslat** putem Request Indexing; ne slati opet bez potrebe.
+- **Korisniku je preporučeno** da pojedinačno klikne `REQUEST INDEXING` na dvije stranice o vozilima, **ako nije ranije**; nema potvrde da je to već uradio. Ne evidentirati kao urađeno dok ne potvrdi.
+- Ne mijenjati SEO HTML/CSS/server zbog sadašnjeg statusa; sačekati novo Google indeksiranje i ponovno čitanje sitemap-a. Provjeriti ponovo narednih dana. **Status nije dokaz blokade indeksiranja.**
+- Nema nove izmjene produkcionog sajta, DNS-a, robota ili plaćenih kampanja. Postojeći nacrt PR #21 za Cloudflare razvojni noindex ostaje zasebno na čekanju.
