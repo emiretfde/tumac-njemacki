@@ -20,7 +20,7 @@
 - Sitemap na `https://tumac-njemacki.me/sitemap.xml` ima samo četiri URL-a; `robots.txt` upućuje na taj sitemap.
 - Pravne stranice (Impressum/Datenschutz) su postojeće, ali imaju `noindex,follow`; ne zahtijevati njihovo indeksiranje bez nove odluke.
 - **Engleski je svjesno ugašen.** Nema `en/`, hreflang-a ni URL-ova u sitemap-u. Na produkciji `/en/*` vraća HTTP **410 Gone** (Apache `.htaccess`; razvojni Cloudflare Pages 404). Stari indeksacijski zahtjev za `/en/` je zastario i Google će ga vremenom ukloniti.
-- Redirecti sa `/` na `/me/` i sa `www` na apex su **302** prema produkcionoj build skripti; eventualna promjena na 301 je odvojena izmjena, ne trenutna činjenica.
+- **Dosadašnja objavljena produkcija** koristila je **302** za root/www. Produkcioni build skript na trenutnom `main` sada priprema **301** za root/www/`index.html` (PR #25); izmjena nije živa dok ručni produkcioni workflow ne bude uspješno pokrenut i provjeren.
 
 ## Google Search Console — već verifikovan
 
@@ -77,3 +77,11 @@ Dva odvojena predloga bez objave: `PR #21` host-specifični `noindex` za Cloudfl
 ### Google Business Profile odložen (11.10.2026)
 
 Emir navodi da Sead, prema njegovom saznanju, **nema stalnu kancelariju**. Zato je donesena odluka da se Google Maps / Business Profile **zasad ne otvara**; nastavlja se besplatni organski SEO na domenu i Search Console. Bez provjerenog poslovnog mjesta nikako ne navoditi četiri grada preuzimanja kao četiri kancelarije. Google dopušta service-area business bez izložene adrese **ako postoji stvarni lični kontakt na lokaciji klijenata**; isključivo online poslovanje nema pravo na profil. Ako Sead naknadno potvrdi terensku uslugu sa ličnim kontaktom, ponovno ocijeniti podobnost. Izvori: https://support.google.com/business/answer/3038177 ; https://support.google.com/business/answer/13763036 .
+
+
+### Posljednje SEO promjene na GitHubu (11.10.2026)
+
+- **PR #25 merged**: `301` canonical host i root/home preusmjeravanja u produkcionom **build skriptu**; za objavu čeka ručno odobreni ALL-INKL production workflow i provjeru. Do tada ne tvrditi da je to trenutno live HTTP ponašanje.
+- **PR #27 merged**: `_headers` postavlja `X-Robots-Tag: noindex` samo za Cloudflare Pages development i branch preview hostname; ne kopira se u ALL-INKL production build. HTTP efekat na Pages domeni još nije nezavisno izmjeren. Stari draft PR #21 zatvoren bez mergea.
+- **GSC**: zadnji korisnički screenshotovi potvrđuju 1 indeksiran od 4 URL-a; zahtjevi za indeksiranje preostala tri poslati. Sitemap status `Couldn't fetch` još čeka ponovnu Google provjeru. Google Business Profile odložen.
+- **Naredni koraci:** korisnička potvrda produkcionog deploya, provjera 301/200/410 odgovora i Cloudflare noindex zaglavlja, pa pregled Search Console narednih dana. Ne ponavljati već poslato indeksiranje.
