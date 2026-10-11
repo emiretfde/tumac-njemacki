@@ -1,5 +1,5 @@
 # HANDOFF — Sead Crnovršanin / tumac-njemacki.me
-**Stanje: 11. oktobar 2026. | V3.0.2 mobile-first | izvor istine za narednu Claude sesiju**
+**Stanje: 11. oktobar 2026. | V3.0.2 mobile-first uživo; dvije SEO izmjene na GitHubu | izvor istine za narednu Claude sesiju**
 
 > **Pročitaj prvo.** Ovo je nastavak postojećeg projekta, NE novi projekat i NE poziv za novi redizajn. Prije rada uporedi `main` sa ovim dokumentom i posljednjim GitHub Actions rezultatima. Ne pretpostavljaj da je Google Search Console nepovezan, da je engleski aktivan ili da je produkcija još na Cloudflare Pages.
 
@@ -111,7 +111,7 @@ Pri promjenama CSS-a ili JS-a povećati `ASSET_V` u generatoru (trenutno `3.0.0`
 - **Posljednja uspješna produkciona objava:** run https://github.com/emiretfde/tumac-njemacki/actions/runs/38132612919, izvorni commit `d66efe4` (V3.0.2).
 - Korisniku prvo dati link do testnog sajta i zatražiti potvrdu. **Nikada automatski ne pokreći produkcioni deployment**, ne mijenjati DNS/KAS, e-mail postavke, FTP korisnike, nikad objavljivati lozinke ili mijenjati zaštitne mehanizme.
 - Apsolutni javni URL-ovi u Apache redirectima su neophodni jer relativni preusmjerivači na ALL-INKL mogu otkriti `/www/htdocs/...` putanju.
-- Root `/` → `/me/` i `www` → apex su trenutno **302**, a ne 301, prema `deploy/prepare-allinkl-production.sh`. Eventualni prelaz na 301 planirati poslije potvrde i testova, bez naglog mijenjanja svih pravila.
+- **Produkcija pri posljednjem uspješnom live deployu** (`d66efe4`) koristila je **302** za root/www. U sadašnjem `main` je produkciona build skripta promijenjena na **301** za root/www/`index.html` (PR #25), ali ta izmjena **nije objavljena uživo** dok korisnik ne odobri novi manual production deploy. Alias preusmjeravanja pravnih stranica ostaju 302; EN ostaje 410.
 - EN `/en/*` na produkciji je **410**. Zbog nedeletujućeg FTPS-a stari fajlovi možda fizički postoje; ne uklanjati ručno bez backup-a, a 410 pravilo ne dirati bez razloga.
 
 ## 9. Šta je testirano, a šta još treba provjeriti
@@ -134,7 +134,7 @@ Pri promjenama CSS-a ili JS-a povećati `ASSET_V` u generatoru (trenutno `3.0.0`
 
 **P4 — Potvrditi kod Seada** postoji li Facebook poslovna stranica; tek sa ispravnim linkom dodati dugme. Provjeriti poslovne činjenice prije objave.
 
-**P5 — Opcionalno nakon stabilizacije:** promjena root/www `302` u `301` (provjeriti pažljivo), Google Business Profile samo ako ispunjava stvarne uslove, dodatna funkcionalna/SEO provjera. Google Ads ne otvarati osim na izričit zahtjev; ne pokretati trošak.
+**P5 — Završni mali SEO posao:** `301` za root/www/`index.html` već je pripremljen i spojen u `main`, ali treba ručni odobreni production deploy i provjeru HTTP odgovora. Google Business Profile trenutno odložen (nema potvrđene stalne kancelarije ili terenske usluge). Google Ads ne otvarati osim na izričit zahtjev; ne pokretati trošak.
 
 **Odvojeni projekat:** U ranijem Claude handoffu pominje se ideja „Tumač AI“ za rad sa dokumentacijom vozila na mogućem `app.tumac-njemacki.me`. To **nije** dio ovog sajta i ne smije mijenjati trenutni hosting/DNS bez zasebnog projekta i odobrenja.
 
@@ -198,3 +198,22 @@ Pri promjenama CSS-a ili JS-a povećati `ASSET_V` u generatoru (trenutno `3.0.0`
 - **Odluka:** ne otvarati, ne verifikovati i ne oglašavati novu Google Maps/Business Profile lokaciju. Lokalni SEO nastaviti kroz postojeći sajt, Google Search Console i korisne ME/DE stranice. Nema promjene u HTML-u, dizajnu ili produkciji.
 - **Nijansa u Google pravilima:** stalni lokal nije neophodan ako biznis zaista **lično dolazi kod kupaca/klijenata** (service-area business, sa skrivenom javnom adresom). Međutim, potpuno online model bez fizičkog kontakta sa klijentima nije podoban. Izvor: https://support.google.com/business/answer/3038177 i https://support.google.com/business/answer/13763036 .
 - Samo ako Sead kasnije potvrdi redovan **neposredan kontakt sa klijentima na terenu**, razmotriti da li ispunjava Googleove uslove za service-area business. Samo preuzimanje preko kurira / online komunikacija nije dovoljan dokaz podobnosti. **Ne izmišljati poslovnu adresu ni fiksne kancelarije u četiri grada.**
+
+
+## 14. Završene male SEO promjene u GitHubu — 11.10.2026. (NAJNOVIJE STANJE)
+
+**Urađeno u kodu, a ne na zvaničnoj produkciji:**
+- **PR #25 SPOJEN**, merge `a9c977c`: u `deploy/prepare-allinkl-production.sh` root `/` → `/me/`, `/index.html` → `/me/`, `www` → apex mijenjaju status preusmjeravanja sa **302 na 301**. Nema drugih promjena odredišta. Pravne alias adrese ostaju 302, a `/en/*` 410. **Dok se manual production workflow ne pokrene i provjeri, zvanični sajt i dalje koristi staru, ranije objavljenu konfiguraciju.**
+- **PR #27 SPOJEN**, merge `ce8192f`: izvorni `_headers` sadrži **host-specifični** `X-Robots-Tag: noindex` isključivo za `tumac-njemacki.pages.dev/*` i branch preview na Cloudflare Pages. ALL-INKL produkcioni build ima eksplicitnu copy-listu i **ne kopira** `_headers`; zvanične ME/DE stranice time nijesu označene kao noindex. Sintaksa potvrđena u https://developers.cloudflare.com/pages/configuration/headers/ . Cloudflare Pages HTTP header **nije potvrđen uživo** zbog mrežnog ograničenja trenutnog izvršnog okruženja. Potrebna je provjera nakon Cloudflare objave.
+- Stari **draft PR #21 ZATVOREN bez mergea**; sadržavao je zastarjeli handoff i zamijenjen je čistim PR #27. Nema više otvorenih PR-ova pri ovoj provjeri.
+- Posljednji potvrđeni Google indeks: **1/4 URL-a** (ME početna); zahtjevi za indeksiranje druge 3 stranice su poslati (DE početna ranije, dvije servisne po korisničkoj potvrdi). `Pages` izvještaj se još obrađivao, a `Sitemaps` u posljednjem screenshotu pokazivao `Couldn't fetch` / 0 discovered. Nema novijih podataka iz Google konzole. Tehnička XML dijagnostika je prethodno prošla. Ne mijenjati sitemap bez novog dokaza problema.
+- Google Business Profile za sada **odložen** dok Sead ne potvrdi uslove za lični kontakt sa klijentima. Ne izmišljati adresu.
+
+**Sljedeći konkretan korak / obavezna potvrda:**
+1. Za zvanični sajt korisnik treba **izričito odobriti i pokrenuti** ručni zaštićeni `ALL-INKL production (manual, guarded)` workflow na `main`, unos `release_approval=PUBLISH_BLUEGOLD_LIVE`. Ne tvrditi da je 301 aktivan prije `Success` i provjere.
+2. Poslije objave provjeriti `https://tumac-njemacki.me/` → 301 `https://tumac-njemacki.me/me/`, `https://www.tumac-njemacki.me/me/` → 301 apex `/me/`, `/index.html` → 301 `/me/`, i dalje `/me/`, `/de/`, dvije stranice za vozila 200/indexable, `/en/` 410 i sitemap 200/XML. Ako test nije moguć u alatu, tražiti korisnički potvrđen rezultat.
+3. Pregledati stvarno `X-Robots-Tag` zaglavlje na `tumac-njemacki.pages.dev/me/` (treba noindex) i zvaničnom hostu (ne smije noindex); provjera još čeka.
+4. Poslije 24–72 sata ponovo pregledati Google Search Console status svih stranica i sitemap-a. Ne ponavljati Request Indexing nepotrebno.
+5. Poslije završne provjere ažurirati ovaj handoff sa **potvrđenim live statusom**; Claude i ChatGPT koriste isti izvor istine.
+
+**Bez novih kampanja, troškova, frontend dizajnerskih ili sadržajnih promjena.**
