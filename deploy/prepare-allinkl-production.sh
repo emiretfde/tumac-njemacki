@@ -79,19 +79,19 @@ AddType font/woff2 .woff2
 </Files>
 
 RewriteEngine On
-# Canonical host (temporary 302 until tested, then change to 301).
+# Canonical host (permanent: stable public domain).
 RewriteCond %{HTTP_HOST} ^www\.tumac-njemacki\.me$ [NC]
-RewriteRule ^ https://tumac-njemacki.me%{REQUEST_URI} [R=302,L,NE]
+RewriteRule ^ https://tumac-njemacki.me%{REQUEST_URI} [R=301,L,NE]
 
 # Use full public URLs: ALL-INKL exposes a filesystem path for relative redirects.
 RewriteRule ^impressum\.html$ https://tumac-njemacki.me/me/impressum.html [R=302,L,NC]
 RewriteRule ^datenschutz\.html$ https://tumac-njemacki.me/me/datenschutz.html [R=302,L,NC]
-RewriteRule ^index\.html$ https://tumac-njemacki.me/me/ [R=302,L,NC]
+RewriteRule ^index\.html$ https://tumac-njemacki.me/me/ [R=301,L,NC]
 
 # V3: English version removed completely. 410 Gone (no redirect), even if old
 # /en/ files remain in the folder because the FTP mirror never deletes files.
 RewriteRule ^en(/.*)?$ - [G,L,NC]
-RewriteRule ^$ https://tumac-njemacki.me/me/ [R=302,L]
+RewriteRule ^$ https://tumac-njemacki.me/me/ [R=301,L]
 
 <IfModule mod_headers.c>
   Header always set X-Content-Type-Options "nosniff"
