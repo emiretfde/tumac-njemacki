@@ -46,15 +46,24 @@ fi
 cat > "$destination/.htaccess" <<'EOF'
 Options -Indexes
 DirectoryIndex index.html
+
+# Force correct XML MIME to prevent browsers from interpreting sitemap tags as HTML.
+AddType application/xml .xml
+<Files "sitemap.xml">
+  ForceType application/xml
+</Files>
+
 RewriteEngine On
-# ALL-INKL Apache requires an absolute public URL for these redirects.
-# Using a relative target exposed /www/htdocs/... in the browser and caused 404.
-# Start with 302 during cutover testing; use 301 only once redirects are verified.
-# Preserve old indexed legal URLs when the new site goes live.
+# Canonical host (temporary 302 until tested, then change to 301).
+RewriteCond %{HTTP_HOST} ^www\.tumac-njemacki\.me$ [NC]
+RewriteRule ^ https://tumac-njemacki.me%{REQUEST_URI} [R=302,L,NE]
+
+# Use full public URLs: ALL-INKL exposes a filesystem path for relative redirects.
 RewriteRule ^impressum\.html$ https://tumac-njemacki.me/me/impressum.html [R=302,L,NC]
 RewriteRule ^datenschutz\.html$ https://tumac-njemacki.me/me/datenschutz.html [R=302,L,NC]
 RewriteRule ^index\.html$ https://tumac-njemacki.me/me/ [R=302,L,NC]
 RewriteRule ^$ https://tumac-njemacki.me/me/ [R=302,L]
+
 <IfModule mod_headers.c>
   Header always set X-Content-Type-Options "nosniff"
 </IfModule>
