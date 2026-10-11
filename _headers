@@ -1,0 +1,10 @@
+# Development host only. Never serve this file on ALL-INKL production.
+# Cloudflare Pages serves this file; ALL-INKL production packager has an explicit
+# allowlist and deliberately does not copy _headers into dist-allinkl-production.
+# This prevents the development copy from competing with tumac-njemacki.me.
+https://tumac-njemacki.pages.dev/*
+  X-Robots-Tag: noindex, nofollow, noarchive
+
+# Also cover branch-specific Cloudflare Pages preview hostnames.
+https://:version.tumac-njemacki.pages.dev/*
+  X-Robots-Tag: noindex, nofollow, noarchive
