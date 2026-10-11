@@ -243,3 +243,40 @@ body{font-family:Manrope,Arial,sans-serif} .serif,h1,.section-title,.service h3,
   pointer-events:none;
 }
 @media(max-width:760px){.hero-main::after{margin-top:28px;width:125px}}
+
+
+/* V15 — language-switch refinement: quiet flags and a separate active marker */
+header .lang-switch{gap:5px;align-items:center;white-space:nowrap}
+header .lang-switch > span[aria-hidden]{font-size:.65rem;opacity:.34;line-height:1;user-select:none}
+header .lang-switch a{
+  position:relative;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  gap:4px;
+  padding:9px 3px 14px;
+  line-height:1.2;
+  text-decoration:none;
+  transition:color .2s ease;
+}
+header .lang-switch a[aria-current="page"]{text-decoration:none;color:#f0debb}
+header .lang-switch a[aria-current="page"]::after{
+  content:"";
+  position:absolute;
+  bottom:4px;
+  left:50%;
+  width:14px;
+  height:1px;
+  transform:translateX(-50%);
+  border-radius:1px;
+  background:#c7b48e;
+  pointer-events:none;
+}
+header .lang-switch .lang-flag{font-size:.92rem;line-height:1;filter:saturate(.65);opacity:.9}
+header .lang-switch a[aria-current="page"] .lang-flag{filter:saturate(.85);opacity:1}
+@media(max-width:680px){
+  header .lang-switch{gap:3px}
+  header .lang-switch a{gap:2px;padding:8px 2px 12px}
+  header .lang-switch a[aria-current="page"]::after{bottom:3px;width:12px}
+  header .lang-switch .lang-flag{font-size:.83rem}
+}
