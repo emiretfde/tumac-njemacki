@@ -190,3 +190,11 @@ Pri promjenama CSS-a ili JS-a povećati `ASSET_V` u generatoru (trenutno `3.0.0`
 - GSC Sitemaps posljednji screenshot: `Couldn't fetch` / 0 discovered; tehnički read-only XML test je prošao. Sačekati dalju obradu i provjeriti opet za 24–72 sata; nema potrebe dirati sitemap odmah.
 - Pregledane javne preporuke: Cloudflare Pages službeno podržava host-specifični apsolutni URL u `_headers` pravilima i `:version` placeholder u hostname-u (https://developers.cloudflare.com/pages/configuration/headers/). Zato nacrt PR #21 tehnički odgovara Cloudflare dokumentovanoj sintaksi; **još je draft i nije spojen niti nezavisno testiran na live Pages hostu**.
 - Google preporučuje **trajno 301 preusmjeravanje** kada je kanonski URL stabilan (https://developers.google.com/search/docs/crawling-indexing/301-redirects). Produkcioni root i www trenutno su 302, pa je prelazak na 301 zasebna predložena tehnička SEO optimizacija — bez objave dok se ne odobri i provjeri.
+
+
+### Dopuna 11.10.2026 — Google Business Profile (Google Maps) odložen
+
+- Emir procjenjuje da Sead **nema stalnu kancelariju** za prijem klijenata. To je preliminarna informacija, još ne potvrđeno sa Seadom.
+- **Odluka:** ne otvarati, ne verifikovati i ne oglašavati novu Google Maps/Business Profile lokaciju. Lokalni SEO nastaviti kroz postojeći sajt, Google Search Console i korisne ME/DE stranice. Nema promjene u HTML-u, dizajnu ili produkciji.
+- **Nijansa u Google pravilima:** stalni lokal nije neophodan ako biznis zaista **lično dolazi kod kupaca/klijenata** (service-area business, sa skrivenom javnom adresom). Međutim, potpuno online model bez fizičkog kontakta sa klijentima nije podoban. Izvor: https://support.google.com/business/answer/3038177 i https://support.google.com/business/answer/13763036 .
+- Samo ako Sead kasnije potvrdi redovan **neposredan kontakt sa klijentima na terenu**, razmotriti da li ispunjava Googleove uslove za service-area business. Samo preuzimanje preko kurira / online komunikacija nije dovoljan dokaz podobnosti. **Ne izmišljati poslovnu adresu ni fiksne kancelarije u četiri grada.**
