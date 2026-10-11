@@ -41,6 +41,30 @@ jobs:
           sudo apt-get update -qq
           sudo apt-get install -y --no-install-recommends lftp
 
+      - name: Verify remote staging guard before any write
+        env:
+          FTP_USER: ${{ secrets.ALLINKL_STAGE_FTP_USER }}
+          FTP_PASSWORD: ${{ secrets.ALLINKL_STAGE_FTP_PASSWORD }}
+        run: |
+          set -euo pipefail
+          # This marker must exist in the isolated FTP root, created in WebFTP.
+          # If the user account is accidentally mapped to production, stop.
+          lftp -u "$FTP_USER","$FTP_PASSWORD" -p 21 "ftp://w01a14cb.kasserver.com" -e '
+            set cmd:fail-exit yes
+            set ftp:ssl-force yes
+            set ftp:ssl-protect-data yes
+            set ftp:passive-mode yes
+            set ssl:verify-certificate yes
+            set net:timeout 20
+            set net:max-retries 2
+            get .tumac-staging-guard -o staging-guard.txt
+            bye
+          '
+          if [[ ! -f staging-guard.txt ]] || ! grep -Fxq 'TUMAC_STAGING_ONLY_V1' staging-guard.txt; then
+            echo "::error::Wrong FTP root: expected staging guard was not found. No files uploaded."
+            exit 1
+          fi
+
       - name: Upload to restricted FTP root using explicit TLS
         env:
           FTP_USER: ${{ secrets.ALLINKL_STAGE_FTP_USER }}
