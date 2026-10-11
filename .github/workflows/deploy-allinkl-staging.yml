@@ -35,6 +35,9 @@ jobs:
             exit 1
           fi
 
+      - name: Check JavaScript syntax
+        run: node --check assets/site.js
+
       - name: Prepare isolated staging website
         run: bash deploy/prepare-allinkl-staging.sh
 
