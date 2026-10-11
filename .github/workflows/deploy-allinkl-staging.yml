@@ -1,0 +1,65 @@
+name: ALL-INKL staging (manual, isolated)
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: allinkl-staging-deploy
+  cancel-in-progress: false
+
+jobs:
+  deploy-staging:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Checkout website
+        uses: actions/checkout@v4
+
+      - name: Check staging-only FTP credentials
+        env:
+          FTP_USER: ${{ secrets.ALLINKL_STAGE_FTP_USER }}
+          FTP_PASSWORD: ${{ secrets.ALLINKL_STAGE_FTP_PASSWORD }}
+        run: |
+          set -euo pipefail
+          if [[ -z "$FTP_USER" || -z "$FTP_PASSWORD" ]]; then
+            echo "::error::Configure ALLINKL_STAGE_FTP_USER and ALLINKL_STAGE_FTP_PASSWORD in GitHub Secrets."
+            exit 1
+          fi
+          if [[ "$FTP_USER" == "w01a14cb" ]]; then
+            echo "::error::Refusing the main FTP account. Create a new FTP user restricted to /tumac-staging/."
+            exit 1
+          fi
+
+      - name: Prepare isolated staging website
+        run: bash deploy/prepare-allinkl-staging.sh
+
+      - name: Install encrypted FTP client
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y --no-install-recommends lftp
+
+      - name: Upload to restricted FTP root using explicit TLS
+        env:
+          FTP_USER: ${{ secrets.ALLINKL_STAGE_FTP_USER }}
+          FTP_PASSWORD: ${{ secrets.ALLINKL_STAGE_FTP_PASSWORD }}
+        run: |
+          set -euo pipefail
+          # FTP user must be restricted to /tumac-staging/.
+          # Upload to its root only. Do not delete or touch production.
+          lftp -u "$FTP_USER","$FTP_PASSWORD" -p 21 "ftp://w01a14cb.kasserver.com" -e '
+            set cmd:fail-exit yes
+            set ftp:ssl-force yes
+            set ftp:ssl-protect-data yes
+            set ftp:passive-mode yes
+            set ssl:verify-certificate yes
+            set net:timeout 20
+            set net:max-retries 2
+            mirror --reverse --no-perms --parallel=2 --verbose=1 ./dist-allinkl-staging/ ./
+            bye
+          '
+
+      - name: Confirm staging upload
+        run: echo "Only the restricted staging FTP account was used; production remains unchanged."
