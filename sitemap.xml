@@ -21,4 +21,27 @@
     <xhtml:link rel="alternate" hreflang="en" href="https://tumac-njemacki.pages.dev/en/"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://tumac-njemacki.pages.dev/me/"/>
   </url>
+
+  <!-- Helpful, separately crawlable vehicle document service in each language. -->
+  <url>
+    <loc>https://tumac-njemacki.pages.dev/me/prevod-saobracajne-dozvole.html</loc>
+    <xhtml:link rel="alternate" hreflang="sr-Latn-ME" href="https://tumac-njemacki.pages.dev/me/prevod-saobracajne-dozvole.html"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://tumac-njemacki.pages.dev/de/prevod-saobracajne-dozvole.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://tumac-njemacki.pages.dev/en/prevod-saobracajne-dozvole.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://tumac-njemacki.pages.dev/me/prevod-saobracajne-dozvole.html"/>
+  </url>
+  <url>
+    <loc>https://tumac-njemacki.pages.dev/de/prevod-saobracajne-dozvole.html</loc>
+    <xhtml:link rel="alternate" hreflang="sr-Latn-ME" href="https://tumac-njemacki.pages.dev/me/prevod-saobracajne-dozvole.html"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://tumac-njemacki.pages.dev/de/prevod-saobracajne-dozvole.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://tumac-njemacki.pages.dev/en/prevod-saobracajne-dozvole.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://tumac-njemacki.pages.dev/me/prevod-saobracajne-dozvole.html"/>
+  </url>
+  <url>
+    <loc>https://tumac-njemacki.pages.dev/en/prevod-saobracajne-dozvole.html</loc>
+    <xhtml:link rel="alternate" hreflang="sr-Latn-ME" href="https://tumac-njemacki.pages.dev/me/prevod-saobracajne-dozvole.html"/>
+    <xhtml:link rel="alternate" hreflang="de" href="https://tumac-njemacki.pages.dev/de/prevod-saobracajne-dozvole.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://tumac-njemacki.pages.dev/en/prevod-saobracajne-dozvole.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://tumac-njemacki.pages.dev/me/prevod-saobracajne-dozvole.html"/>
+  </url>
 </urlset>

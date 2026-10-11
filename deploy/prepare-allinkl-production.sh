@@ -25,6 +25,7 @@ for lang in me de en; do
     fi
   done
   test -s "$destination/$lang/index.html" || { echo "Missing language page: $lang" >&2; exit 1; }
+  test -s "$destination/$lang/prevod-saobracajne-dozvole.html" || { echo "Missing vehicle service page: $lang" >&2; exit 1; }
 done
 
 test -s "$destination/assets/site.css"
@@ -41,7 +42,9 @@ test "$(cat "$verify_file")" = "google-site-verification: google9ea0a3ecbd8b4bde
 # Replace staging canonicals and reciprocal hreflang / social links,
 # including URLs embedded in JSON-LD. Do not alter the source repo.
 for lang in me de en; do
-  sed -i 's@https://tumac-njemacki.pages.dev@https://tumac-njemacki.me@g' "$destination/$lang/index.html"
+  for html in "$destination/$lang/"*.html; do
+    sed -i 's@https://tumac-njemacki.pages.dev@https://tumac-njemacki.me@g' "$html"
+  done
 done
 sed -i 's@https://tumac-njemacki.pages.dev@https://tumac-njemacki.me@g' "$destination/sitemap.xml" "$destination/robots.txt"
 
@@ -94,6 +97,7 @@ EOF
 grep -Fq 'https://tumac-njemacki.me/sitemap.xml' "$destination/robots.txt" || { echo "Bad robots sitemap URL" >&2; exit 1; }
 for lang in me de en; do
   grep -Fq "https://tumac-njemacki.me/$lang/" "$destination/$lang/index.html" || { echo "Missing real-domain URLs: $lang" >&2; exit 1; }
+  grep -Fq "https://tumac-njemacki.me/$lang/prevod-saobracajne-dozvole.html" "$destination/$lang/prevod-saobracajne-dozvole.html" || { echo "Vehicle page still points at staging: $lang" >&2; exit 1; }
 done
 
 echo "Production package built locally. No remote changes performed."
