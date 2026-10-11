@@ -152,3 +152,11 @@ Pri promjenama CSS-a ili JS-a povećati `ASSET_V` u generatoru (trenutno `3.0.0`
 - Sitemap HTTP dijagnostika: https://github.com/emiretfde/tumac-njemacki/actions/runs/38132882924
 
 **Komunikacija:** crnogorski / latinica / ijekavica; kratko, jasno i direktno. Nepoznate poslovne činjenice pitati umjesto da se izmisle.
+
+
+## 13. SEO provjera — otvoreni predlog nakon V3.0.2 (11.10.2026)
+
+- **PR #21 — DRAFT, NIJE SPOJEN U MAIN**: https://github.com/emiretfde/tumac-njemacki/pull/21. Dodaje samo Cloudflare Pages konfiguraciju `_headers` sa host-specifičnim `X-Robots-Tag: noindex, nofollow, noarchive` za `tumac-njemacki.pages.dev` i njegove branch preview adrese. Namjena: spriječiti da se razvojne kopije pojavljuju kao konkurencija zvaničnom domenu. ALL-INKL produkcioni paket ovaj fajl **ne kopira**, pa ne smije uticati na indeksiranje zvaničnog `tumac-njemacki.me`.
+- Poslije eventualnog odobrenja PR-a potrebno je provjeriti stvarne Cloudflare HTTP response headere. Dok PR nije odobren/spojen i potvrđen, ovo je **predlog**, ne završena popravka.
+- **Search Console korisnički izvještaj još nije ponovo očitan.** Ranije stanje `Couldn't fetch` može biti zastarjelo. Vlasništvo URL-prefix property je ranije potvrđeno; GitHub dijagnostika sitemap-a je prošla, ali ne pokazuje Google indeksiranje. Prioritet: pribaviti aktuelne izvještaje Indexing → Pages i Sitemaps ili koristiti eksplicitno povezanu GSC integraciju.
+- Pri SEO radu nema novih troškova, kampanja, izmjena vizuelnog dizajna, niti produkcionog deploya bez Emirove potvrde.
