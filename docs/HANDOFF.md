@@ -61,7 +61,7 @@ Pravne stranice `/me/impressum.html`, `/de/impressum.html`, `/me/datenschutz.htm
 
 ### Kontakt koji se ne smije pokvariti
 - Broj: `+38267998199`; e-mail: `info@tumac-njemacki.me`.
-- Viber deep linkovi u `assets/site.js`: iOS `viber://contact?number=%2B38267998199`; Android `viber://chat?number=38267998199`; ostalo postojeći `viber://chat?number=%2B38267998199`. Postoji dugme „Kopiraj broj“. V3 primjenjuje platformsku izmjenu na **sve** Viber linkove.
+- Viber deep linkovi u `assets/site.js`: iOS `viber://chat?number=%2B38267998199` (od V3.0.1, ranije `viber://contact`, koji je otvarao samo karticu kontakta, a ne chat); Android `viber://chat?number=38267998199`; ostalo postojeći `viber://chat?number=%2B38267998199`. Postoji dugme „Kopiraj broj“. V3 primjenjuje platformsku izmjenu na **sve** Viber linkove.
 - WhatsApp: `https://wa.me/38267998199` uz lokalizovanu početnu poruku. Klikovi nijesu garancija poslatog upita.
 - Kontakt traka na dnu mobilnog ekrana: poziv, Viber, WhatsApp. JS je skriva dok je vidljiv cookie-consent i u kontakt sekciji, pojavljuje se nakon prvih hero dugmadi; testirati pri promjenama.
 - Emir je izričito potvrdio da **Viber radi**. Svaku promjenu njegovog linkovanja prvo testirati na stvarnom telefonu.
