@@ -20,7 +20,7 @@ PHONE = "+382\u00a067\u00a099\u00a081\u00a099"  # non-breaking spaces: the numbe
 MAIL = "info@tumac-njemacki.me"
 VIBER_HREF = "viber://chat?number=%2B38267998199"  # rewritten per platform by site.js (V10 logic)
 HREFLANG = {"me": "sr-Latn-ME", "de": "de"}
-ASSET_V = "3.0.1"
+ASSET_V = "3.0.0"
 
 ICONS = {
  "phone": '<path d="M7.3 3.5H4.9c-.8 0-1.4.6-1.4 1.4A16.6 16.6 0 0 0 19.1 20.5c.8 0 1.4-.6 1.4-1.4v-2.4c0-.6-.4-1.2-1-1.3l-3.1-.7c-.5-.1-1 .1-1.3.5l-1.1 1.3a13 13 0 0 1-6.5-6.5l1.3-1.1c.4-.3.6-.8.5-1.3l-.7-3.1c-.1-.6-.7-1-1.3-1z"/>',

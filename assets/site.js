@@ -22,17 +22,16 @@
     });
   }
 
-  // Mobile Viber deep links. iOS previously used viber://contact (V10), which only opens
-  // the contact card; since V3.0.1 iOS uses viber://chat with +, opening the chat directly
-  // (requested by the site owner). Android keeps its confirmed V10 format. Applied to
-  // every Viber button on the page.
+  // Preserve the mobile Viber links confirmed by the site owner (V10 logic, unchanged
+  // deep-link formats). V3 has several Viber buttons per page, so the same rewrite is
+  // applied to each of them instead of only the first one.
   const vibers=document.querySelectorAll('[data-contact="viber"]');
   if(vibers.length){
     const ua=navigator.userAgent||'';
     const ios=/iPad|iPhone|iPod/i.test(ua)||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1);
     const android=/Android/i.test(ua);
     vibers.forEach(viber=>{
-      if(ios) viber.href='viber://chat?number=%2B38267998199';
+      if(ios) viber.href='viber://contact?number=%2B38267998199';
       else if(android) viber.href='viber://chat?number=38267998199';
     });
     document.querySelectorAll('.viber-copy-button').forEach(copy=>{
